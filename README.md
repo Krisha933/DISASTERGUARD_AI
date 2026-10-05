@@ -1,1669 +1,506 @@
-# 🌪️ DisasterGuard AI
+Bilkul 👍 Main tumhe **clean, directly-paste-ready `README.md`** de raha hoon. Is version me code blocks properly close hain, isliye poora README red/code format me nahi jayega.
 
-### AI-Powered Multi-Hazard Disaster Risk Monitoring & Safe Route Assistant
-
-**Predict • Monitor • Analyse • Navigate • Stay Safe**
-
-DisasterGuard AI is an intelligent disaster-risk monitoring platform designed to help users understand **flood risk, weather conditions, historical disaster patterns, and safer travel routes** through a single web application.
-
----
-
-## 🚨 What is DisasterGuard AI?
-
-Natural disasters such as floods, heavy rainfall, and extreme weather can create serious risks for people, vehicles, and infrastructure.
-
-**DisasterGuard AI** combines:
-
-- 🤖 Machine Learning
-- 🌦️ Live Weather Data
-- 🌊 Flood Risk Prediction
-- 📊 Historical Disaster Analysis
-- 🗺️ Interactive Maps
-- 🚗 Safe Route Analysis
-- 📍 Location & Geocoding Services
-
-to provide users with useful disaster-risk information in an easy-to-understand dashboard.
-
-> ⚠️ **Safety Notice:** DisasterGuard AI is an educational and decision-support system. It should not replace official government warnings, emergency services, or professional disaster-management advice.
-
----
-
-# ✨ Key Features
-
-| Feature | Description |
-|---|---|
-| 🌊 Flood Prediction | Predicts flood risk using a trained Random Forest model |
-| 🌦️ Live Weather | Retrieves current weather information |
-| 📊 Historical Risk | Shows historical disaster/weather information |
-| 🗺️ Interactive Map | Displays locations and routes using Leaflet |
-| 🚗 Safe Route Analysis | Helps compare routes using available risk information |
-| 🔀 Route Comparison | Compares alternative routes |
-| 📍 Location Search | Converts locations into geographic coordinates |
-| 📈 Risk Monitoring | Presents important disaster-related information in one dashboard |
-| 💻 Web Dashboard | Easy-to-use browser-based interface |
-
----
-
-# 🧠 Machine Learning
-
-The main Machine Learning component of DisasterGuard AI is **Flood Risk Prediction**.
-
-The project uses a **Random Forest Classifier**.
-
-### Input Features
-
-The model uses weather-related features such as:
-
-- 🌡️ Temperature
-- 🌧️ Rainfall
-- 💨 Maximum Wind Speed
-
-### Target
-
-```text
-Flood
-
-The trained model is stored in:
-
-models/flood_model.pkl
-ML Pipeline
-Weather / Disaster Dataset
-          ↓
-Data Cleaning
-          ↓
-Feature Selection
-          ↓
-Dataset Preparation
-          ↓
-Random Forest Training
-          ↓
-Model Evaluation
-          ↓
-flood_model.pkl
-          ↓
-Flood Risk Prediction
-🤖 Flood Prediction API
-
-The application provides a prediction endpoint:
-
-/predict-flood
-
-Example request:
-
-/predict-flood?temperature=30&rainfall=120&wind=25
-
-The model processes the input values and returns the predicted flood condition.
-
-📊 Dataset
-
-DisasterGuard AI uses multiple datasets for different parts of the application.
-
-Important dataset files include:
-
-data/
-├── disaster_ml_dataset.csv
-├── ml_dataset.csv
-├── flood_data.csv
-├── flood_cleaned.csv
-├── historical_weather_dataset.csv
-├── historical_weather_test.csv
-├── historical_disasters.json
-├── district_coordinates.csv
-└── district_list_cleaned.csv
-
-These datasets are used for:
-
-Machine Learning
-Historical risk analysis
-Weather analysis
-District/location information
-Flood prediction
-📈 Historical Risk Analysis
-
-DisasterGuard AI can provide historical risk information for a selected city.
-
-Example:
-
-/historical-risk?city=Lucknow
-
-Historical information can help users understand whether a location has experienced disaster-related risk in the past.
-
-🌦️ Live Weather Intelligence
-
-The application uses weather data to provide current environmental information.
-
-Weather information can include:
-
-Temperature
-Rainfall
-Wind speed
-Weather conditions
-
-The project uses Open-Meteo for weather information.
-
-🗺️ Interactive Disaster Map
-
-The application uses:
-
-Leaflet
-OpenStreetMap
-
-to create an interactive map.
-
-The map can be used for:
-
-Location visualization
-Route visualization
-Disaster-risk monitoring
-Geographic analysis
-🚗 Safe Route Analysis
-
-DisasterGuard AI includes a route-analysis component designed to help users understand possible travel risks.
-
-The system can consider:
-
-Starting Location
-       ↓
-Destination
-       ↓
-Route Calculation
-       ↓
-Alternative Routes
-       ↓
-Risk Information
-       ↓
-Route Comparison
-       ↓
-Recommended Safer Option
-
-The route analysis is intended as decision support and should always be verified against official road closures and emergency instructions.
-
-🔀 Alternative Route Comparison
-
-The project can work with routing and geocoding services such as:
-
-OpenStreetMap
-Nominatim
-OSRM
-Google Maps
-
-These services can help with:
-
-Location → Coordinates
-Coordinates → Route
-Route → Alternative Route
-Alternative Routes → Comparison
-🏗️ System Architecture
-                    ┌──────────────────────┐
-                    │       USER           │
-                    └──────────┬───────────┘
-                               │
-                               ▼
-                    ┌──────────────────────┐
-                    │   WEB DASHBOARD      │
-                    │   HTML/CSS/JS        │
-                    └──────────┬───────────┘
-                               │
-                               ▼
-                    ┌──────────────────────┐
-                    │      FLASK APP       │
-                    │       app.py         │
-                    └──────────┬───────────┘
-                               │
-             ┌─────────────────┼─────────────────┐
-             │                 │                 │
-             ▼                 ▼                 ▼
-     ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-     │ Flood ML     │  │ Weather API  │  │ Route APIs   │
-     │ Random Forest│  │ Open-Meteo   │  │ OSM / OSRM   │
-     └──────┬───────┘  └──────────────┘  └──────────────┘
-            │
-            ▼
-     ┌────────────────┐
-     │ flood_model.pkl│
-     └────────────────┘
-            │
-            ▼
-     ┌──────────────────────┐
-     │ Risk Prediction &    │
-     │ Route Information    │
-     └──────────┬───────────┘
-                │
-                ▼
-     ┌──────────────────────┐
-     │ Results on Dashboard  │
-     └──────────────────────┘
-📱 Dashboard
-
-The DisasterGuard AI dashboard provides a centralized interface for disaster monitoring.
-
-The dashboard can contain sections such as:
-
-🌊 Flood Risk
-
-Displays the predicted flood condition based on weather-related inputs.
-
-🌦️ Weather
-
-Shows current weather information.
-
-📊 Historical Risk
-
-Provides historical information related to disaster conditions.
-
-🗺️ Map
-
-Displays geographic information and routes.
-
-🚗 Safe Route
-
-Provides route analysis and alternative route information.
-
-🛠️ Technology Stack
-Frontend
-HTML5
-CSS3
-JavaScript
-Leaflet.js
-Backend
-Python
-Flask
-Machine Learning
-Scikit-learn
-Random Forest
-Pandas
-NumPy
-Maps & Routing
-OpenStreetMap
-Leaflet
-Nominatim
-OSRM
-Google Maps
-Weather
-Open-Meteo
-Development Tools
-Visual Studio Code
-Git
-GitHub
-Python Virtual Environment
-📁 Project Structure
-DISASTERGUARD_AI/
-│
-├── app.py
-├── train_model.py
-├── prepare_dataset.py
-│
-├── check_dataset.py
-├── check_historical_weather_dataset.py
-├── clean_district_list.py
-├── clean_flood_data.py
-├── create_normal_samples.py
-├── district_list.py
-├── get_district_coordinates.py
-│
-├── historical_weather_batch_test.py
-├── historical_weather_dataset.py
-├── historical_weather_test.py
-├── inspect_weather_data.py
-│
-├── requirements.txt
-├── README.md
-│
-├── data/
-│   ├── disaster_ml_dataset.csv
-│   ├── district_coordinates.csv
-│   ├── district_coordinates_not_found.csv
-│   ├── district_coordinates_test.csv
-│   ├── district_list_cleaned.csv
-│   ├── flood_cleaned.csv
-│   ├── flood_data.csv
-│   ├── historical_disasters.json
-│   ├── historical_weather_dataset.csv
-│   ├── historical_weather_test.csv
-│   └── ml_dataset.csv
-│
-├── models/
-│   └── flood_model.pkl
-│
-├── static/
-│   ├── css/
-│   │   └── style.css
-│   │
-│   └── js/
-│       └── dashboard.js
-│
-└── templates/
-    └── index.html
-⚙️ Installation
-1. Clone the Repository
-git clone https://github.com/Krisha933/DISASTERGUARD_AI.git
-
-Go inside the project:
-
-cd DISASTERGUARD_AI
-2. Create Virtual Environment
-
-Windows:
-
-python -m venv venv
-
-Activate it:
-
-venv\Scripts\activate
-
-You should see:
-
-(venv)
-
-at the beginning of your terminal.
-
-3. Install Dependencies
-pip install -r requirements.txt
-4. Run the Application
-python app.py
-
-The Flask server will start locally.
-
-Open the address shown in the terminal in your browser.
-
-Usually:
-
-http://127.0.0.1:5000
-🧠 Train the Machine Learning Model
-
-If you want to train the flood prediction model again:
-
-python train_model.py
-
-The trained model is saved as:
-
-models/flood_model.pkl
-🔌 API Endpoints
-Endpoint	Purpose
-/	Main dashboard
-/predict-flood	Flood prediction
-/historical-risk	Historical disaster risk
-/safe-route	Safe route analysis
-/compare-routes	Compare routes
-/geocode	Location/geocoding
-🌍 External Services
-
-DisasterGuard AI can interact with external services for additional information.
-
-Open-Meteo
-
-Used for weather information.
-
-OpenStreetMap
-
-Used for map data.
-
-Leaflet
-
-Used for interactive maps.
-
-Nominatim
-
-Used for geocoding locations.
-
-OSRM
-
-Used for route calculation.
-
-Google Maps
-
-Can be used for additional route navigation/reference.
-
-🌎 Real-World Applications
-
-DisasterGuard AI can be useful in areas such as:
-
-🚨 Disaster Management
-
-Helps users understand possible disaster risks.
-
-🚗 Transportation
-
-Provides route information during potentially risky conditions.
-
-🏙️ Smart Cities
-
-Can support location-based risk monitoring.
-
-🌾 Agriculture
-
-Weather and rainfall information can help understand environmental conditions.
-
-🏫 Educational Projects
-
-Demonstrates the practical use of:
-
-Artificial Intelligence
-Machine Learning
-Web Development
-APIs
-Maps
-Data Analysis
-⭐ Why DisasterGuard AI?
-
-Traditional weather applications mainly show weather conditions.
-
-DisasterGuard AI attempts to combine several useful capabilities:
-
-Weather
-   +
-Machine Learning
-   +
-Historical Data
-   +
-Maps
-   +
-Route Analysis
-   =
-DisasterGuard AI
-
-This makes the project more than a simple weather application.
-
-🔮 Future Improvements
-
-Possible future improvements include:
-
-🌊 Real-time flood sensor integration
-🛰️ Satellite-based disaster detection
-🧠 Deep Learning models
-🌧️ Rainfall forecasting
-📱 Android/mobile application
-🔔 Emergency notifications
-📍 Real-time GPS tracking
-🏠 Shelter/relief-center detection
-🗺️ Live disaster heatmaps
-📡 Government disaster-alert integration
-🤖 AI-based disaster assistant chatbot
-📊 Advanced analytics dashboard
-⚠️ Limitations
-
-The current system has some limitations:
-
-Predictions depend on available datasets.
-Weather data may change over time.
-External APIs may occasionally be unavailable.
-Route information may not reflect real-time road closures.
-ML predictions are not guaranteed to be correct.
-The system should not be used as the only source during an actual emergency.
-
-Always follow official emergency-management instructions.
-
-🛡️ Responsible Use
-
-DisasterGuard AI is designed as a decision-support and educational system.
-
-For real emergencies, users should always verify information through official sources such as:
-
-Government disaster-management authorities
-Local administration
-Emergency services
-Weather authorities
-Police and rescue services
-👩‍💻 Developer
-
-Krisha933
-
-GitHub:
-
-https://github.com/Krisha933
-
-Project Repository:
-
-https://github.com/Krisha933/DISASTERGUARD_AI
-
-📜 License
-
-This project is intended for educational, research, and hackathon purposes.
-
-You may adapt and improve the project according to your requirements.
-
-⭐ Support the Project
-
-If you find DisasterGuard AI useful:
-
-⭐ Star the repository
-🍴 Fork the project
-🐛 Report issues
-💡 Suggest improvements
-🤝 Contribute to the project
-
-🌪️ DisasterGuard AI
-Predict • Monitor • Analyse • Navigate • Stay Safe
-
-Building technology for smarter disaster-risk awareness.
-
-
-### Step 2 — Save karo
-
-VS Code me:
-
-**Ctrl + S**
-
-Phir README ka preview dekhne ke liye:
-
-**Ctrl + Shift + V**
-
-Agar preview me headings, tables aur sections properly dikh rahe hain, to README ready hai. ✅
-
-### Step 3 — GitHub par push karo
-
-VS Code ka terminal kholo aur **sirf ye commands** ek-ek karke run karo:
-
-```powershell
-git status
-
-Phir:
-
-git add README.md
-
-Phir:
-
-git commit -m "Add professional README"
-
-Aur finally:
-
-git push
-Step 4 — GitHub check
-
-Browser me apna repository refresh karo:
-
-github.com/Krisha933/DISASTERGUARD_AI
-
-Ab README automatically repository ke main page par show hona chahiye. 🎉
-
-Important: README me abhi fake screenshot/image links nahi daale hain. Pehle actual DisasterGuard AI website ke 2–3 screenshots lenge, phir unhe screenshots/ folder me add karke README ko aur hackathon/professional level bana denge.
-
-div align="center">
+**Important:** Neeche ke `README` content ko hi copy karke GitHub ke `README.md` me paste karna. ` ```markdown ` wala outer wrapper copy **mat** karna.
 
 # 🌪️ DisasterGuard AI
 
 ### 🚨 AI-Powered Multi-Hazard Disaster Risk Monitoring & Safe Route Assistant
 
-**Predict • Monitor • Analyse • Navigate • Stay Safe**
-\<p> \<img src="[https://img.shields.io/badge/AI%20%26%20ML-Random%20Forest-8B5CF6?style=for-the-badge](https://img.shields.io/badge/AI%20%26%20ML-Random%20Forest-8B5CF6?style=for-the-badge)" alt="AI and ML"> \<img src="[https://img.shields.io/badge/Weather-Live%20Intelligence-06B6D4?style=for-the-badge](https://img.shields.io/badge/Weather-Live%20Intelligence-06B6D4?style=for-the-badge)" alt="Weather"> \<img src="[https://img.shields.io/badge/Maps-Leaflet%20%2B%20OSM-22C55E?style=for-the-badge](https://img.shields.io/badge/Maps-Leaflet%20%2B%20OSM-22C55E?style=for-the-badge)" alt="Maps"> \<img src="[https://img.shields.io/badge/Routing-OSRM-F97316?style=for-the-badge](https://img.shields.io/badge/Routing-OSRM-F97316?style=for-the-badge)" alt="Routing"> \</p>
-\<p> \<img src="[https://img.shields.io/badge/Python-3.x-3776AB?style=flat-square&logo=python&logoColor=white](https://img.shields.io/badge/Python-3.x-3776AB?style=flat-square\&logo=python\&logoColor=white)" alt="Python"> \<img src="[https://img.shields.io/badge/Flask-Web%20App-000000?style=flat-square&logo=flask&logoColor=white](https://img.shields.io/badge/Flask-Web%20App-000000?style=flat-square\&logo=flask\&logoColor=white)" alt="Flask"> \<img src="[https://img.shields.io/badge/Scikit--learn-Machine%20Learning-F7931E?style=flat-square&logo=scikit-learn&logoColor=white](https://img.shields.io/badge/Scikit--learn-Machine%20Learning-F7931E?style=flat-square\&logo=scikit-learn\&logoColor=white)" alt="Scikit-learn"> \<img src="[https://img.shields.io/badge/OpenStreetMap-Mapping-7EBC6F?style=flat-square&logo=openstreetmap](https://img.shields.io/badge/OpenStreetMap-Mapping-7EBC6F?style=flat-square\&logo=openstreetmap)" alt="OpenStreetMap"> \</p>
-\<p> 🌦️ Weather Intelligence  •  🌊 Flood Prediction  •  ⚡ Lightning Risk  •  🌪️ Storm Risk  •  🗺️ Multi-Hazard Map  •  🚗 Safe Route Analysis \</p>
-\<p> \<a href="[https://github.com/Krisha933/DISASTERGUARD_AI](https://github.com/Krisha933/DISASTERGUARD_AI)"> \<img src="[https://img.shields.io/badge/GitHub-DISASTERGUARD__AI-181717?style=for-the-badge&logo=github](https://img.shields.io/badge/GitHub-DISASTERGUARD__AI-181717?style=for-the-badge\&logo=github)" alt="GitHub Repository"> \</a> \</p>
-\</div>
+<p align="center">
+  <img src="https://img.shields.io/badge/AI%20%26%20ML-Random%20Forest-8B5CF6?style=for-the-badge" alt="AI & ML">
+  <img src="https://img.shields.io/badge/Weather-Live%20Intelligence-06B6D4?style=for-the-badge" alt="Weather">
+  <img src="https://img.shields.io/badge/Maps-Leaflet%20%2B%20OSM-22C55E?style=for-the-badge" alt="Maps">
+  <img src="https://img.shields.io/badge/Routing-OSRM-F97316?style=for-the-badge" alt="Routing">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.x-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Flask-Web%20App-000000?style=flat-square&logo=flask&logoColor=white" alt="Flask">
+  <img src="https://img.shields.io/badge/Scikit--learn-Machine%20Learning-F7931E?style=flat-square&logo=scikit-learn&logoColor=white" alt="Scikit-learn">
+  <img src="https://img.shields.io/badge/OpenStreetMap-Mapping-7EBC6F?style=flat-square&logo=openstreetmap&logoColor=white" alt="OpenStreetMap">
+</p>
+
+<p align="center">
+  🌦️ <b>Predict</b> • 🗺️ <b>Monitor</b> • 🤖 <b>Analyse</b> • 🚗 <b>Navigate</b> • 🛡️ <b>Stay Safe</b>
+</p>
 
 ---
 
-## 🚨 What is DisasterGuard AI?
+## 🌈 What is DisasterGuard AI?
 
-**DisasterGuard AI** is a full-stack web-based disaster monitoring and decision-support prototype that combines **machine learning, live weather intelligence, historical disaster data, interactive maps, hazard analysis, and route comparison** in a single dashboard.
-Instead of presenting weather information alone, the system converts multiple environmental signals into an easy-to-understand **multi-hazard risk view** and provides safety-oriented travel guidance.
+**DisasterGuard AI** is a web-based disaster monitoring and decision-support platform designed to help users understand environmental risks and make safer travel decisions.
 
-### 🎯 Core idea
+The project combines:
 
-```
-🌦️ Weather Data
-↓
-🤖 Risk & ML Analysis
-↓
-🌊 Flood • ⚡ Lightning • 🌪️ Storm
-↓
-📊 Overall Risk Assessment
-↓
-🗺️ Risk Visualization
-↓
-🚗 Route Comparison
-↓
-🛡️ Safety Guidance
-```
+* 🤖 Machine Learning for flood-risk prediction
+* 🌦️ Live weather intelligence
+* 📚 Historical disaster analysis
+* 🗺️ Interactive multi-hazard mapping
+* ⚡ Lightning risk analysis
+* 🌪️ Storm and severe-weather monitoring
+* 🚗 Safe route analysis
+* 🛣️ Alternative route comparison
+* 🚨 Emergency and safety guidance
+* 📍 Location-based monitoring
 
-> ⚠️ **Safety notice:** DisasterGuard AI is an educational/research prototype. It is **not an official emergency-warning system** and must not be used as the sole source for life-safety decisions. During a real emergency, follow official authorities and emergency services.
+Instead of showing only weather information, DisasterGuard AI combines multiple hazard indicators into one dashboard and presents them in an easy-to-understand safety view.
+
+> ⚠️ **Important:** DisasterGuard AI is an educational, research and hackathon prototype. It should not be treated as an official emergency-warning or life-safety system.
 
 ---
 
-## ✨ Key Features
+# ✨ Key Features
 
-| Feature | Description |
-| ------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
-| 🌦️ **Weather Intelligence** | Uses live weather information to support current environmental risk assessment. |
-| 🌊 **AI Flood Prediction** | Uses a trained Random Forest classifier to estimate flood risk from temperature, rainfall and maximum wind. |
-| ⚡ **Lightning Risk** | Displays lightning-related risk indicators in the dashboard. |
-| 🌪️ **Storm Risk** | Tracks storm/severe-weather related conditions. |
-| 📊 **Overall Risk Score** | Combines available hazard indicators into an easy-to-read safety status. |
-| 🗺️ **Multi-Hazard Risk Map** | Visualizes locations and risk information using an interactive map. |
-| 📚 **Historical Risk Analysis** | Uses stored disaster records to add historical context for a selected city. |
-| 🚗 **AI Safe Route Analysis** | Analyses current risk values and provides travel-oriented recommendations. |
-| 🛣️ **Alternative Route Comparison** | Finds driving routes and compares them using the available hazard-risk information. |
-| 📍 **Location Search** | Supports location-based monitoring and route workflows. |
-| 🚨 **Emergency Action Center** | Provides safety-oriented guidance and navigation options. |
-| 🏥 **Nearby Help Workflows** | Supports workflows for finding emergency assistance such as hospitals, shelters and police services. |
-| 📱 **Interactive Dashboard** | Presents risk cards, alerts, maps, recommendations and route information in one interface. |
+| Feature                    | Description                                                   |
+| -------------------------- | ------------------------------------------------------------- |
+| 🌦️ Weather Intelligence   | Monitors current weather and environmental conditions.        |
+| 🌊 AI Flood Prediction     | Uses a Random Forest model for flood-risk prediction.         |
+| ⚡ Lightning Risk           | Provides lightning-related risk information.                  |
+| 🌪️ Storm Risk             | Analyses storm and severe-weather conditions.                 |
+| 🗺️ Multi-Hazard Risk Map  | Displays disaster-related information on an interactive map.  |
+| 📚 Historical Risk         | Analyses historical disaster records for a selected city.     |
+| 🚗 Safe Route Analysis     | Analyses travel risk for a selected destination.              |
+| 🛣️ Route Comparison       | Compares available driving routes based on risk exposure.     |
+| 🚨 Emergency Action Center | Provides emergency-oriented safety assistance.                |
+| 🏥 Nearby Help             | Supports access to hospitals, shelters and police assistance. |
+| 📊 Smart Dashboard         | Displays risk cards, alerts, maps and safety information.     |
+| 📍 Location Monitoring     | Allows monitoring of a selected geographical location.        |
 
 ---
 
-## 🧠 How the AI/ML Component Works
+# 🤖🧠 Artificial Intelligence
 
-### 🌊 Random Forest Flood-Risk Prediction
+## Random Forest Flood-Risk Prediction
 
-The project includes a **Random Forest Classifier** for flood-risk prediction.
-The current model uses three input features:
+DisasterGuard AI includes a **Random Forest Classifier** for flood-risk prediction.
 
-```
-Temperature
-Rainfall
-Max_Wind
-```
+### Model Inputs
 
-Target:
+The current trained model uses:
 
-```
-Flood
-```
+* `Temperature`
+* `Rainfall`
+* `Max_Wind`
 
-The application exposes the prediction through the Flask endpoint:
+### Target
 
-```
-GET /predict-flood
-```
+* `Flood`
 
-Example:
+### Example Prediction
 
-```
-/predict-flood?temperature=30&rainfall=120&wind=25
-```
-
-A response can contain information such as:
-
-```
+```json
 {
-"prediction": 0,
-"result": "NORMAL",
-"probability": 12.5
+  "prediction": 1,
+  "result": "FLOOD RISK",
+  "probability": 78.4
 }
 ```
 
-or:
+A normal-risk example:
 
-```
+```json
 {
-"prediction": 1,
-"result": "FLOOD RISK",
-"probability": 78.4
+  "prediction": 0,
+  "result": "NORMAL",
+  "probability": 12.5
 }
 ```
 
-### 🔬 Model training pipeline
+### 🧪 Model Training Process
 
-```
-📄 data/ml_dataset.csv
-↓
-🔍 Select ML Features
-↓
-✂️ Train/Test Split
-↓
-🌲 RandomForestClassifier
-↓
-📊 Model Evaluation
-↓
-💾 models/flood_model.pkl
-```
+The training script:
 
-To retrain the model:
+1. Loads `data/ml_dataset.csv`
+2. Selects `Temperature`, `Rainfall`, and `Max_Wind`
+3. Splits the dataset into training and testing sets
+4. Trains a `RandomForestClassifier`
+5. Evaluates the model using accuracy and classification report
+6. Saves the trained model
 
-```
-python train_model.py
-```
+Model output:
 
-The training workflow uses the project's ML dataset and stores the trained model in:
-
-```
+```text
 models/flood_model.pkl
 ```
 
-> **Important:** A model probability is an estimate, not a guarantee that a flood will occur.
+### ML Pipeline
+
+```text
+Historical Dataset
+       ↓
+Data Preparation
+       ↓
+Feature Selection
+       ↓
+Train / Test Split
+       ↓
+Random Forest Training
+       ↓
+Model Evaluation
+       ↓
+flood_model.pkl
+       ↓
+Flask API
+       ↓
+Web Dashboard
+```
 
 ---
 
-## 📊 Dataset & Historical Intelligence
+# 📊 Dataset & Historical Intelligence
 
-The repository contains prepared datasets and historical records used by the application and ML workflow.
+The project contains multiple datasets used for machine learning, weather analysis and disaster-risk monitoring.
 
-### Main ML dataset
+## Main ML Dataset
 
-```
+```text
 data/ml_dataset.csv
 ```
 
-The supplied project contains a prepared flood-prediction dataset with environmental and geographic fields such as:
+Current dataset:
 
-```
-Date
-District
-State
-Latitude
-Longitude
-Temperature
-Rainfall
-Max_Wind
-Flood
-```
+* **4,228 records**
+* **9 columns**
 
-### Historical weather data
+Important fields:
 
-```
+| Field       | Purpose                 |
+| ----------- | ----------------------- |
+| Date        | Observation date        |
+| District    | District name           |
+| State       | State name              |
+| Latitude    | Geographic latitude     |
+| Longitude   | Geographic longitude    |
+| Temperature | Temperature value       |
+| Rainfall    | Rainfall value          |
+| Max_Wind    | Maximum wind speed      |
+| Flood       | Flood prediction target |
+
+## Historical Weather Dataset
+
+```text
 data/historical_weather_dataset.csv
-data/historical_weather_test.csv
 ```
 
-These files support historical weather-data preparation and testing workflows.
+Contains historical weather records prepared for project analysis.
 
-### Flood/disaster data
+## Flood / Disaster Dataset
 
-```
+```text
 data/flood_data.csv
-data/flood_cleaned.csv
-data/disaster_ml_dataset.csv
 ```
 
-### Historical disaster records
+Contains historical flood/disaster information such as:
 
-```
+* Date
+* Location
+* District
+* State
+* Latitude
+* Longitude
+* Severity
+* Area affected
+* Human casualties
+* Damage information
+* Event source
+
+## Historical Disaster Records
+
+```text
 data/historical_disasters.json
 ```
 
-These records are used to provide additional historical context for the selected location.
+These records are used for historical disaster-risk analysis.
 
 ---
 
-## 📚 Historical Risk Analysis
+# 🔬 Historical Risk Analysis
 
-DisasterGuard AI includes a historical-risk workflow through:
+DisasterGuard AI provides a dedicated historical-risk API.
 
-```
-GET /historical-risk
-```
+### API
 
-Example:
-
-```
-/historical-risk?city=Lucknow
+```text
+GET /historical-risk?city=<city>
 ```
 
-The historical analysis uses stored disaster information to provide contextual risk levels such as:
+The application analyses stored disaster records for the requested city.
 
-```
+It considers:
+
+* Number of incidents
+* High-severity incidents
+* Medium-severity incidents
+
+The result is converted into:
+
+```text
 LOW
 MEDIUM
 HIGH
 CRITICAL
 ```
 
-This historical score is intended to **complement current environmental indicators**, not replace live official warnings.
+Historical risk provides additional context alongside current environmental conditions.
 
 ---
 
-## 🌦️ Live Weather Intelligence
+# 🌦️ Live Weather Intelligence
 
-The dashboard uses **Open-Meteo** weather/forecast information as part of its environmental monitoring workflow.
-The system uses weather-related signals such as:
+The dashboard uses live weather information to support current risk assessment.
 
-- 🌧️ Rainfall
-- 🌡️ Temperature
-- 💨 Wind
-- ⚡ Lightning-related conditions
-- 🌪️ Storm/severe-weather conditions
+The frontend connects to **Open-Meteo** for weather and forecast information.
 
-These signals are processed by the frontend/backend risk logic to produce an understandable current safety view.
+The system considers environmental signals related to:
 
----
+* 🌧️ Rainfall
+* 🌡️ Temperature
+* 💨 Wind
+* ⚡ Lightning
+* 🌪️ Storm
+* ⛈️ Severe Weather
 
-## 🗺️ Interactive Multi-Hazard Risk Map
-
-The dashboard uses:
-
-- **Leaflet.js** for interactive mapping
-- **OpenStreetMap** for map data/tiles
-
-The map can support:
-
-- 📍 Monitoring location
-- 🌊 Flood-risk information
-- ⚡ Lightning-risk information
-- 🌪️ Storm/hazard information
-- 🛣️ Route alternatives
-- 🟢 Recommended route
-- ⚪ Alternative routes
-
-The goal is to make complex environmental information easier to understand visually.
+Weather information is combined with the project's risk-analysis logic to provide understandable hazard information.
 
 ---
 
-## 🚗 AI Safe Route Analysis
+# ⚡ Lightning Risk Analysis
 
-A major feature of DisasterGuard AI is its **Safe Route Analysis**.
-The user enters a destination, and the application uses the current location and current risk values to request route analysis.
-The route workflow considers:
+DisasterGuard AI analyses environmental conditions related to potential lightning risk.
 
-```
-Overall Risk
-Flood Risk
-Lightning Risk
-Storm Risk
-Weather Risk
-```
+The dashboard can display statuses such as:
 
-The system can communicate statuses such as:
-
-```
-🟢 LOW RISK
-🟡 CAUTION
-🟠 HIGH RISK
-🔴 CRITICAL
-```
-
-Example safety guidance:
-
-> High flood risk detected. Avoid unnecessary travel and avoid waterlogged, low-lying or drainage-prone roads.
+* 🟢 **LOW RISK**
+* 🟡 **CAUTION**
+* 🟠 **HIGH RISK**
+* 🔴 **CRITICAL**
 
 ---
 
-## 🛣️ Alternative Route Comparison
+# 🌪️ Storm & Severe Weather Monitoring
 
-The route-comparison workflow follows this pipeline:
+The platform monitors multiple environmental hazards including:
 
-```
-📍 Current Location
-↓
-📍 Destination
-↓
-🔎 Destination Geocoding
-↓
-🛣️ Driving Route Generation
-↓
-📏 Route Distance / Duration
-↓
-🌦️ Hazard Exposure Analysis
-↓
-📊 Route Risk Comparison
-↓
-🤖 Safer Available Route Recommendation
-```
+* 🌪️ Storms
+* 💨 Strong Winds
+* ⛈️ Severe Weather
+* 🌧️ Heavy Rainfall
+* ⚡ Lightning
 
-The project uses:
-
-| Service | Purpose |
-| ----------------------------- | ----------------------------------- |
-| **Nominatim / OpenStreetMap** | Destination geocoding |
-| **OSRM** | Driving-route generation |
-| **Google Maps** | Navigation/search links |
-| **Project risk values** | Environmental route-risk estimation |
-
-The route system is an **estimated risk-analysis prototype**, not a certified navigation or emergency-routing system.
+This allows the system to consider multiple hazards instead of focusing only on floods.
 
 ---
 
-## 🔄 System Architecture
+# 🗺️ Interactive Multi-Hazard Risk Map
 
-```
-🌦️ Weather Data
-│
-▼
-┌─────────────────────┐
-│ Environmental Risk │
-│ Processing │
-└──────────┬──────────┘
-│
-┌────────────────┼────────────────┐
-▼ ▼ ▼
-🌊 Flood ⚡ Lightning 🌪️ Storm
-│ │ │
-└────────────────┼────────────────┘
-▼
-📊 Overall Risk
-│
-┌─────────────┴─────────────┐
-▼ ▼
-🤖 ML Flood Model 📚 Historical Data
-│ │
-└─────────────┬─────────────┘
-▼
-🛡️ DisasterGuard AI
-│
-┌────────────────┼────────────────┐
-▼ ▼ ▼
-🗺️ Risk Map 🚗 Safe Route 🚨 Safety
-```
+The dashboard contains an interactive map powered by:
+
+* **Leaflet**
+* **OpenStreetMap**
+
+The map can display:
+
+* 📍 Monitoring location
+* 🌊 Flood-risk information
+* ⚡ Lightning-risk information
+* 🌪️ Storm information
+* 🛣️ Route alternatives
+* 🟢 Recommended routes
+* ⚠️ Hazard information
+
+The map makes complex disaster-risk information easier to understand visually.
 
 ---
 
-## 🖥️ Dashboard
+# 🚗 Safe Route Analysis
 
-The interface is designed as a lightweight disaster-monitoring center.
+One of the main features of DisasterGuard AI is **Safe Route Analysis**.
 
-### Main dashboard areas
+Users can provide a destination and the system analyses the current environmental risk.
 
-- 🛡️ Current Safety Status
-- 🌦️ Weather Risk
-- 🌊 Flood Risk
-- ⚡ Lightning Risk
-- 🌪️ Storm Risk
-- 📊 Overall Risk Score
-- 🗺️ Multi-Hazard Risk Map
-- 📚 Historical vs Current Risk
-- 🤖 ML Flood Prediction
-- 🚗 Safe Route Analysis
-- 🛣️ Alternative Route Comparison
-- 🚨 Current Risk Alerts
-- 🧭 Safety Recommendations
-- 🆘 Emergency Action Center
+The analysis considers:
 
----
+* Overall risk
+* Flood risk
+* Lightning risk
+* Storm risk
+* Severe weather risk
 
-## 🧩 Technology Stack
-
-### Backend
-
-- 🐍 Python
-- 🌐 Flask
-- 📦 Joblib
-
-### Machine Learning & Data
-
-- 🤖 Scikit-learn
-- 🌲 Random Forest
-- 🐼 Pandas
-- 🔢 NumPy
-- 📊 CSV/JSON datasets
-
-### Frontend
-
-- HTML5
-- CSS3
-- JavaScript
-- Leaflet.js
-
-### Maps & Routing
-
-- 🗺️ OpenStreetMap
-- 📍 Nominatim
-- 🛣️ OSRM
-- 🧭 Google Maps links
-
-### Weather
-
-- 🌦️ Open-Meteo
-
----
-
-## 📁 Project Structure
-
-```
-DISASTERGUARD_AI/
-│
-├── app.py
-├── train_model.py
-├── prepare_dataset.py
-├── check_dataset.py
-├── check_historical_weather_dataset.py
-├── clean_district_list.py
-├── clean_flood_data.py
-├── create_normal_samples.py
-├── district_list.py
-├── get_district_coordinates.py
-├── historical_weather_batch_test.py
-├── historical_weather_dataset.py
-├── historical_weather_test.py
-├── inspect_weather_data.py
-│
-├── data/
-│ ├── ml_dataset.csv
-│ ├── historical_weather_dataset.csv
-│ ├── historical_weather_test.csv
-│ ├── flood_data.csv
-│ ├── flood_cleaned.csv
-│ ├── disaster_ml_dataset.csv
-│ ├── historical_disasters.json
-│ ├── district_coordinates.csv
-│ ├── district_coordinates_not_found.csv
-│ ├── district_coordinates_test.csv
-│ └── district_list_cleaned.csv
-│
-├── models/
-│ └── flood_model.pkl
-│
-├── static/
-│ ├── css/
-│ │ └── style.css
-│ └── js/
-│ └── dashboard.js
-│
-├── templates/
-│ └── index.html
-│
-├── requirements.txt
-│
-└── README.md
-```
-
-> **Do not commit `venv/`, `.env`, API keys, passwords or other secrets.** A virtual environment should be recreated locally rather than stored in GitHub.
-
----
-
-# 🚀 Installation & Setup
-
-## 1. Clone the repository
-
-```
-git clone https://github.com/Krisha933/DISASTERGUARD_AI.git
-cd DISASTERGUARD_AI
-```
-
-## 2. Create a virtual environment
-
-### Windows
-
-```
-python -m venv venv
-```
-
-Activate it:
-
-```
-venv\Scripts\activate
-```
-
-### macOS / Linux
-
-```
-python3 -m venv venv
-source venv/bin/activate
-```
-
-## 3. Install dependencies
-
-Install the project's required Python packages:
-
-```
-pip install -r requirements.txt
-```
-
-If your local `requirements.txt` is incomplete for the ML/data-processing scripts, install the core dependencies manually:
-
-```
-pip install flask pandas numpy scikit-learn joblib
-```
-
-> After confirming the application works, it is recommended to keep `requirements.txt` synchronized with the working environment.
-
-## 4. Run the application
-
-From the project root:
-
-```
-python app.py
-```
-
-Then open the local URL displayed by Flask, commonly:
-
-```
-http://127.0.0.1:5000
-```
-
-or:
-
-```
-http://localhost:5000
-```
-
----
-
-## 🤖 Retrain the Flood Model
-
-To retrain the Random Forest model:
-
-```
-python train_model.py
-```
-
-The model is saved as:
-
-```
-models/flood_model.pkl
-```
-
----
-
-## 🔌 API Endpoints
-
-| Method | Endpoint | Purpose |
-| ------ | ------------------ | ------------------------------------------------------- |
-| `GET` | `/` | Loads the DisasterGuard AI dashboard |
-| `GET` | `/predict-flood` | Predicts flood risk from temperature, rainfall and wind |
-| `GET` | `/historical-risk` | Calculates historical disaster risk for a city |
-| `GET` | `/safe-route` | Provides destination/travel risk analysis |
-| `GET` | `/compare-routes` | Finds and compares available driving routes |
-| `GET` | `/geocode` | Supports location/destination geocoding workflows |
-
-### Flood prediction example
-
-```
-http://127.0.0.1:5000/predict-flood?temperature=30&rainfall=120&wind=25
-```
-
-### Historical risk example
-
-```
-http://127.0.0.1:5000/historical-risk?city=Lucknow
-```
-
----
-
-## 🌐 External Services
-
-| Service | Used For |
-| --------------------- | ----------------------- |
-| 🌦️ **Open-Meteo** | Weather/forecast data |
-| 🗺️ **OpenStreetMap** | Map data/tiles |
-| 📍 **Nominatim** | Geocoding |
-| 🛣️ **OSRM** | Driving routes |
-| 🧭 **Google Maps** | Navigation/search links |
-
-> External services are third-party services. Availability, rate limits, policies and data quality may change independently of this project.
-
----
-
-## 🎯 Real-World Applications
-
-DisasterGuard AI demonstrates how AI and web technologies could support:
-
-### 🏙️ Smart Cities
-
-Location-based environmental monitoring and risk visualization.
-
-### 🚗 Safer Travel
-
-Helping users understand whether current environmental conditions may make travel risky.
-
-### 🏫 Education
-
-Demonstrating practical integration of machine learning, APIs, maps and data processing.
-
-### 🚨 Disaster Awareness
-
-Bringing multiple hazard indicators together in one interface.
-
-### 🏢 Emergency Planning
-
-Providing a prototype workflow for multi-hazard monitoring and decision support.
-
-### 🗺️ Location-Based Risk Analysis
-
-Combining geographic, weather and historical information for a selected area.
-
----
-
-## 🏆 Why DisasterGuard AI?
-
-DisasterGuard AI goes beyond a basic weather application by combining:
-
-```
-🤖 MACHINE LEARNING
-+
-🌦️ WEATHER DATA
-+
-📚 HISTORICAL DATA
-+
-📊 RISK ANALYSIS
-+
-🗺️ RISK MAP
-+
-🚗 ROUTE COMPARISON
-+
-🚨 SAFETY GUIDANCE
-```
-
-This makes it suitable as a:
-
-- 🏆 Hackathon prototype
-- 🎓 College project
-- 🤖 AI/ML demonstration
-- 🌍 Disaster-management concept
-- 💻 Full-stack application showcase
-
----
-
-## ⚠️ Limitations
-
-This project is a prototype and has important limitations:
-
-- The flood model uses a limited number of input features.
-- Historical records are not equivalent to a complete national/international disaster database.
-- ML predictions can produce false positives and false negatives.
-- A prediction probability is not proof that a disaster will occur.
-- Route risk is an estimation based on available hazard values and route exposure logic.
-- Weather, geocoding and routing depend on third-party services and network connectivity.
-- The project does not replace official government warnings.
-- Production deployment would require stronger validation, monitoring, logging, authentication and reliable real-time hazard feeds.
-- Real emergency systems would require rigorous testing, redundancy, security, fail-safe design and authoritative data sources.
-
----
-
-## 🔮 Future Improvements
-
-Planned/possible upgrades include:
-
-- 🧠 Advanced ML and deep-learning models
-- 🌊 Improved flood forecasting
-- 🛰️ Satellite and GIS hazard layers
-- 📡 Real-time emergency feeds
-- 📍 Live GPS tracking
-- 🚨 SMS, email and push notifications
-- 📱 Android/mobile application
-- 🗄️ Database-backed event history
-- 👤 User authentication
-- 🧭 Advanced route-risk scoring
-- 🗺️ Live flood-zone overlays
-- 🔥 Wildfire and heatwave prediction
-- 🌍 Additional disaster categories
-- 📈 Historical trend analytics
-- ☁️ Cloud deployment
-- 🐳 Docker support
-- 🧪 Automated ML evaluation
-- 💡 Explainable AI for model predictions
-
----
-
-## 🔐 Responsible Use & Safety
-
-DisasterGuard AI is intended for:
-
-- Educational use
-- Research
-- Demonstration
-- Hackathons
-- Disaster-awareness concepts
-
-**Do not rely on this prototype as the sole source of information during an actual emergency.**
-For real-world emergencies:
-
-> **Follow official government alerts, local authorities and emergency services.**
-
----
-
-## 👩‍💻 Developer
-
-\<div align="center">
-
-### **Krisha933**
-
-AI/ML • Full-Stack Development • Disaster-Safety Innovation
-\<p> \<a href="[https://github.com/Krisha933](https://github.com/Krisha933)"> \<img src="[https://img.shields.io/badge/GitHub-Krisha933-181717?style=for-the-badge&logo=github](https://img.shields.io/badge/GitHub-Krisha933-181717?style=for-the-badge\&logo=github)" alt="GitHub"> \</a> \</p>
-**Project Repository:**
-
-Krisha933/DISASTERGUARD_AI \</div> --- ## 📜 License This project is currently intended for **educational and research purposes**. If you want others to legally use, modify and distribute the project, add an open-source license such as the **MIT License** to the repository. --- ## ⭐ Support the Project If you find DisasterGuard AI useful or interesting: ⭐ Star the repository 🍴 Fork the project 🐛 Report issues 💡 Suggest improvements 🤝 Contribute ideas --- \<div align="center"> # 🛡️ DisasterGuard AI ### **Predict • Monitor • Analyse • Navigate • Stay Safe** 🌦️ Weather Intelligence 🤖 AI Flood Prediction 🗺️ Multi-Hazard Mapping 🚗 Safe Route Analysis 🚨 Safety Guidance **Made with ❤️ for AI, ML & Disaster-Safety Innovation** \</div> ye readme sahi h na essha bana kr do sundar sa
-
-Haan 👍 content achha hai, lekin jo tumne paste kiya hai usme Markdown/HTML bahut zyada escaped aur malformed ho gaya hai—jaise \<div>, [[https..., \#, etc. Is form me GitHub README sundar nahi dikhega.
-
-Main tumhare same project/features ko preserve karke, clean, professional aur GitHub-friendly version bana raha hoon. Isme unnecessary fake claims bhi avoid kiye hain.
-
-✅ Kya karna hai
-
-VS Code me README.md kholo → Ctrl + A → neeche wala poora code paste karo → Ctrl + S.
-
-<div align="center">
-
-# 🌪️ DisasterGuard AI
-
-### 🚨 AI-Powered Multi-Hazard Disaster Risk Monitoring & Safe Route Assistant
-
-**Predict • Monitor • Analyse • Navigate • Stay Safe**
-
-<p>
-  <img src="https://img.shields.io/badge/AI%20%26%20ML-Random%20Forest-8B5CF6?style=for-the-badge" alt="AI and ML">
-  <img src="https://img.shields.io/badge/Weather-Live%20Intelligence-06B6D4?style=for-the-badge" alt="Weather">
-  <img src="https://img.shields.io/badge/Maps-Leaflet%20%2B%20OSM-22C55E?style=for-the-badge" alt="Maps">
-  <img src="https://img.shields.io/badge/Routing-OSRM-F97316?style=for-the-badge" alt="Routing">
-</p>
-
-<p>
-  <img src="https://img.shields.io/badge/Python-3.x-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/Flask-Web%20App-000000?style=flat-square&logo=flask&logoColor=white" alt="Flask">
-  <img src="https://img.shields.io/badge/Scikit--learn-Machine%20Learning-F7931E?style=flat-square&logo=scikit-learn&logoColor=white" alt="Scikit-learn">
-  <img src="https://img.shields.io/badge/OpenStreetMap-Mapping-7EBC6F?style=flat-square&logo=openstreetmap" alt="OpenStreetMap">
-</p>
-
-<p>
-  🌦️ Weather Intelligence &nbsp;•&nbsp;
-  🌊 Flood Prediction &nbsp;•&nbsp;
-  ⚡ Lightning Risk &nbsp;•&nbsp;
-  🌪️ Storm Risk &nbsp;•&nbsp;
-  🗺️ Multi-Hazard Map &nbsp;•&nbsp;
-  🚗 Safe Route Analysis
-</p>
-
-<p>
-  <a href="https://github.com/Krisha933/DISASTERGUARD_AI">
-    <img src="https://img.shields.io/badge/GitHub-DISASTERGUARD__AI-181717?style=for-the-badge&logo=github" alt="GitHub Repository">
-  </a>
-</p>
-
-</div>
-
----
-
-## 🚨 What is DisasterGuard AI?
-
-**DisasterGuard AI** is a full-stack web-based disaster monitoring and decision-support prototype that combines:
-
-- 🤖 Machine Learning
-- 🌦️ Live Weather Intelligence
-- 📊 Historical Disaster Data
-- 🗺️ Interactive Maps
-- 🌊 Flood Risk Prediction
-- ⚡ Lightning Risk Indicators
-- 🌪️ Storm Risk Indicators
-- 🚗 Route Comparison
-- 🛡️ Safety Guidance
-
-Instead of showing weather information alone, the system brings multiple environmental signals together into an easy-to-understand **multi-hazard risk dashboard**.
-
-> ⚠️ **Safety Notice:** DisasterGuard AI is an educational/research prototype. It is **not an official emergency-warning system** and must not be used as the sole source for life-safety decisions. During a real emergency, always follow official authorities and emergency services.
-
----
-
-# 🎯 Core Idea
+The system can generate:
 
 ```text
-🌦️ Weather Data
-       ↓
-🤖 Risk & ML Analysis
-       ↓
-🌊 Flood • ⚡ Lightning • 🌪️ Storm
-       ↓
-📊 Overall Risk Assessment
-       ↓
-🗺️ Risk Visualization
-       ↓
-🚗 Route Comparison
-       ↓
-🛡️ Safety Guidance
-✨ Key Features
-Feature	Description
-🌦️ Weather Intelligence	Uses weather information to support current environmental risk assessment.
-🌊 AI Flood Prediction	Uses a trained Random Forest classifier to estimate flood risk.
-⚡ Lightning Risk	Displays lightning-related risk indicators.
-🌪️ Storm Risk	Tracks storm and severe-weather related conditions.
-📊 Overall Risk Score	Combines available hazard indicators into an easy-to-read safety status.
-🗺️ Multi-Hazard Risk Map	Visualizes locations and risk information using an interactive map.
-📚 Historical Risk Analysis	Uses stored disaster records to provide historical context.
-🚗 Safe Route Analysis	Analyses available risk values for travel-oriented recommendations.
-🛣️ Alternative Route Comparison	Finds and compares available driving routes.
-📍 Location Search	Supports location-based monitoring and route workflows.
-🚨 Emergency Action Center	Provides safety-oriented guidance and navigation options.
-🏥 Nearby Help Workflows	Supports workflows for finding emergency assistance.
-📱 Interactive Dashboard	Presents alerts, maps, risk cards and recommendations in one interface.
-🧠 AI / Machine Learning
-🌊 Random Forest Flood-Risk Prediction
-
-The project includes a Random Forest Classifier for flood-risk prediction.
-
-The current model uses three main input features:
-
-Temperature
-Rainfall
-Max_Wind
-Target
-Flood
-
-The trained model is stored at:
-
-models/flood_model.pkl
-ML Training Pipeline
-📄 Dataset
-    ↓
-🔍 Feature Selection
-    ↓
-✂️ Train / Test Split
-    ↓
-🌲 Random Forest Classifier
-    ↓
-📊 Model Evaluation
-    ↓
-💾 flood_model.pkl
-    ↓
-🌊 Flood Risk Prediction
-
-To retrain the model:
-
-python train_model.py
-
-Important: A model probability is an estimate, not a guarantee that a flood will occur.
-
-🔌 Flood Prediction API
-
-The Flask application provides a flood prediction endpoint:
-
-GET /predict-flood
-Example
-/predict-flood?temperature=30&rainfall=120&wind=25
-
-A response may contain information such as:
-
-{
-  "prediction": 0,
-  "result": "NORMAL",
-  "probability": 12.5
-}
-
-or:
-
-{
-  "prediction": 1,
-  "result": "FLOOD RISK",
-  "probability": 78.4
-}
-📊 Dataset & Historical Intelligence
-
-The repository contains prepared datasets and historical records used by the application and ML workflow.
-
-Main ML Dataset
-data/ml_dataset.csv
-
-Important fields include:
-
-Date
-District
-State
-Latitude
-Longitude
-Temperature
-Rainfall
-Max_Wind
-Flood
-Historical Weather
-data/historical_weather_dataset.csv
-data/historical_weather_test.csv
-Flood / Disaster Data
-data/flood_data.csv
-data/flood_cleaned.csv
-data/disaster_ml_dataset.csv
-Historical Disaster Records
-data/historical_disasters.json
-📚 Historical Risk Analysis
-
-DisasterGuard AI includes a historical-risk workflow:
-
-GET /historical-risk
-
-Example:
-
-/historical-risk?city=Lucknow
-
-Historical information provides additional context for the selected location.
-
-Possible risk levels include:
-
-🟢 LOW
-🟡 MEDIUM
-🟠 HIGH
-🔴 CRITICAL
-
-Historical information is intended to complement current environmental indicators, not replace official warnings.
-
-🌦️ Live Weather Intelligence
-
-The project uses Open-Meteo as part of its weather-data workflow.
-
-Weather-related signals can include:
-
-🌧️ Rainfall
-🌡️ Temperature
-💨 Wind
-⚡ Lightning-related conditions
-🌪️ Storm/severe-weather conditions
-
-These signals are used by the application to create an understandable current risk view.
-
-🗺️ Interactive Multi-Hazard Risk Map
-
-The dashboard uses:
-
-Leaflet.js for interactive maps
-OpenStreetMap for map data
-
-The map can support:
-
-📍 Monitoring Location
-🌊 Flood Risk
-⚡ Lightning Risk
-🌪️ Storm Risk
-🛣️ Route Alternatives
-🟢 Recommended Route
-⚪ Alternative Routes
-
-The goal is to make complex environmental information easier to understand visually.
-
-🚗 Safe Route Analysis
-
-DisasterGuard AI includes a Safe Route Analysis workflow.
-
-The system can consider available risk indicators such as:
-
-Overall Risk
-Flood Risk
-Lightning Risk
-Storm Risk
-Weather Risk
-
-Possible statuses:
-
 🟢 LOW RISK
 🟡 CAUTION
 🟠 HIGH RISK
 🔴 CRITICAL
+```
 
-Example safety guidance:
+It also provides a human-readable recommendation.
 
-High flood risk detected. Avoid unnecessary travel and avoid waterlogged, low-lying or drainage-prone roads.
+### Example
 
-🛣️ Alternative Route Comparison
+```text
+High Flood Risk detected.
 
-The route workflow follows:
+Avoid unnecessary travel and high-risk areas.
 
-📍 Current Location
-       ↓
-📍 Destination
-       ↓
-🔎 Destination Geocoding
-       ↓
-🛣️ Driving Route Generation
-       ↓
-📏 Distance / Duration
-       ↓
-🌦️ Hazard Exposure Analysis
-       ↓
-📊 Route Risk Comparison
-       ↓
-🛡️ Safer Available Route
-Services
-Service	Purpose
-Nominatim / OpenStreetMap	Destination geocoding
-OSRM	Driving-route generation
-Google Maps	Navigation/search links
-Project Risk Values	Environmental risk estimation
+Avoid waterlogged roads, drainage areas
+and low-lying locations.
+```
 
-The route system is an estimated risk-analysis prototype, not a certified navigation or emergency-routing system.
+---
 
-🏗️ System Architecture
-                         🌦️ Weather Data
-                               │
-                               ▼
-                    ┌─────────────────────┐
-                    │ Environmental Risk  │
-                    │     Processing      │
-                    └──────────┬──────────┘
-                               │
-              ┌────────────────┼────────────────┐
-              ▼                ▼                ▼
-          🌊 Flood         ⚡ Lightning      🌪️ Storm
-              │                │                │
-              └────────────────┼────────────────┘
-                               ▼
-                       📊 Overall Risk
-                               │
-                 ┌─────────────┴─────────────┐
-                 ▼                           ▼
-          🤖 ML Flood Model          📚 Historical Data
-                 │                           │
-                 └─────────────┬─────────────┘
-                               ▼
-                      🛡️ DisasterGuard AI
-                               │
-              ┌────────────────┼────────────────┐
-              ▼                ▼                ▼
-          🗺️ Risk Map      🚗 Safe Route     🚨 Safety
-🖥️ Dashboard
+# 🧭 Alternative Route Comparison
 
-The interface works as a lightweight disaster-monitoring center.
+The `/compare-routes` endpoint provides route comparison.
 
-Main Dashboard Areas
-🛡️ Current Safety Status
-🌦️ Weather Risk
-🌊 Flood Risk
-⚡ Lightning Risk
-🌪️ Storm Risk
-📊 Overall Risk Score
-🗺️ Multi-Hazard Risk Map
-📚 Historical vs Current Risk
-🤖 ML Flood Prediction
-🚗 Safe Route Analysis
-🛣️ Alternative Route Comparison
-🚨 Current Risk Alerts
-🧭 Safety Recommendations
-🆘 Emergency Action Center
-🧩 Technology Stack
-Backend
-🐍 Python
-🌐 Flask
-📦 Joblib
-Machine Learning & Data
-🤖 Scikit-learn
-🌲 Random Forest
-🐼 Pandas
-🔢 NumPy
-📊 CSV / JSON
-Frontend
-HTML5
-CSS3
-JavaScript
-Leaflet.js
-Maps & Routing
-🗺️ OpenStreetMap
-📍 Nominatim
-🛣️ OSRM
-🧭 Google Maps
-Weather
-🌦️ Open-Meteo
-📁 Project Structure
+### How It Works
+
+```text
+Your Location
+      ↓
+Destination Geocoding
+      ↓
+Driving Route Generation
+      ↓
+Route Distance Calculation
+      ↓
+Environmental Risk Analysis
+      ↓
+Route Risk Comparison
+      ↓
+Safer Route Recommendation
+```
+
+### Technologies Used
+
+* **Nominatim / OpenStreetMap** — destination geocoding
+* **OSRM** — driving-route generation
+* **Project hazard-risk values** — route exposure analysis
+
+Route results can include:
+
+* Distance
+* Estimated duration
+* Risk level
+* Safety status
+* Recommendation
+* Route geometry
+
+---
+
+# 🚨 Emergency Action Center
+
+The platform includes an Emergency Action Center to provide quick access to safety-oriented assistance.
+
+Possible assistance includes:
+
+* 🏥 Nearby hospitals
+* 🚓 Police assistance
+* 🛟 Shelters
+* 📞 Emergency services
+* 📍 Nearby help
+* 🗺️ Navigation support
+
+The objective is to bring useful emergency resources together in one place.
+
+---
+
+# 🔄 How DisasterGuard AI Works
+
+```text
+                 🌦️ Weather Data
+                       │
+                       ▼
+            ┌─────────────────────┐
+            │ Environmental Risk  │
+            │     Processing      │
+            └──────────┬──────────┘
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+      🌊 Flood     ⚡ Lightning   🌪️ Storm
+          │            │            │
+          └────────────┼────────────┘
+                       ▼
+                📊 Overall Risk
+                       │
+          ┌────────────┴────────────┐
+          ▼                         ▼
+   🤖 ML Flood Model        📚 Historical Data
+          │                         │
+          └────────────┬────────────┘
+                       ▼
+              🛡️ DisasterGuard AI
+                       │
+          ┌────────────┼────────────┐
+          ▼            ▼            ▼
+      🗺️ Risk Map   🚗 Safe Route  🚨 Safety
+```
+
+---
+
+# 🖥️ Smart Disaster Dashboard
+
+The web dashboard works as a lightweight disaster-monitoring center.
+
+### Main Dashboard Sections
+
+* 🛡️ Current Safety Status
+* 🌦️ Weather Risk
+* 🌊 Flood Risk
+* ⚡ Lightning Risk
+* 🌪️ Storm Risk
+* 🗺️ Multi-Hazard Risk Map
+* 🔮 Risk Prediction
+* ❓ Why This Risk?
+* 📚 Historical vs Current Risk
+* 🚗 Safe Route
+* 🚨 Emergency Help
+* 🆘 Safety Instructions
+* 📍 Emergency Action Center
+
+The interface combines risk cards, maps, alerts and visual indicators into one dashboard.
+
+---
+
+# 🧩 Technology Stack
+
+## Backend
+
+* 🐍 Python
+* 🌐 Flask
+* 📦 Joblib
+
+## Machine Learning
+
+* 🤖 Scikit-learn
+* 🌲 Random Forest
+* 🐼 Pandas
+* 🔢 NumPy
+
+## Frontend
+
+* HTML5
+* CSS3
+* JavaScript
+* Leaflet.js
+
+## Maps & Routing
+
+* 🗺️ OpenStreetMap
+* 📍 Nominatim
+* 🛣️ OSRM
+
+## Weather
+
+* 🌦️ Open-Meteo
+
+---
+
+# 📁 Project Structure
+
+```text
 DISASTERGUARD_AI/
 │
 ├── app.py
@@ -1684,13 +521,11 @@ DISASTERGUARD_AI/
 ├── data/
 │   ├── ml_dataset.csv
 │   ├── historical_weather_dataset.csv
-│   ├── historical_weather_test.csv
 │   ├── flood_data.csv
 │   ├── flood_cleaned.csv
 │   ├── disaster_ml_dataset.csv
 │   ├── historical_disasters.json
 │   ├── district_coordinates.csv
-│   ├── district_coordinates_not_found.csv
 │   ├── district_coordinates_test.csv
 │   └── district_list_cleaned.csv
 │
@@ -1706,212 +541,369 @@ DISASTERGUARD_AI/
 ├── templates/
 │   └── index.html
 │
+├── database/
+│
 ├── requirements.txt
+│
 └── README.md
+```
 
-Do not commit venv/, .env, API keys, passwords or other secrets.
+> 💡 **Note:** Do not commit your local `venv/` directory to GitHub. Create a fresh virtual environment locally.
 
-🚀 Installation & Setup
-1. Clone the Repository
+---
+
+# 🚀 Installation & Setup
+
+## 1️⃣ Clone the Repository
+
+```bash
 git clone https://github.com/Krisha933/DISASTERGUARD_AI.git
 cd DISASTERGUARD_AI
-2. Create Virtual Environment
-Windows
+```
+
+## 2️⃣ Create Virtual Environment
+
+### Windows
+
+```bash
 python -m venv venv
-
-Activate:
-
 venv\Scripts\activate
-macOS / Linux
+```
+
+### macOS / Linux
+
+```bash
 python3 -m venv venv
 source venv/bin/activate
-3. Install Dependencies
-pip install -r requirements.txt
+```
 
-If additional core packages are required:
+## 3️⃣ Install Dependencies
 
+```bash
 pip install flask pandas numpy scikit-learn joblib
-4. Run the Application
-python app.py
+```
 
-Then open:
+Or, if `requirements.txt` is complete:
 
-http://127.0.0.1:5000
+```bash
+pip install -r requirements.txt
+```
 
-or:
+After confirming the project works, update the requirements file:
 
-http://localhost:5000
-🤖 Retrain the Flood Model
+```bash
+pip freeze > requirements.txt
+```
+
+---
+
+# 🤖 Train the Flood Model
 
 To retrain the Random Forest model:
 
+```bash
 python train_model.py
+```
 
-The model will be stored at:
+The script reads:
 
+```text
+data/ml_dataset.csv
+```
+
+and saves the trained model to:
+
+```text
 models/flood_model.pkl
-🔌 API Endpoints
-Method	Endpoint	Purpose
-GET	/	Loads the DisasterGuard AI dashboard
-GET	/predict-flood	Predicts flood risk
-GET	/historical-risk	Provides historical risk
-GET	/safe-route	Provides route-risk analysis
-GET	/compare-routes	Compares available routes
-GET	/geocode	Location/geocoding workflow
-Flood Prediction
-http://127.0.0.1:5000/predict-flood?temperature=30&rainfall=120&wind=25
-Historical Risk
-http://127.0.0.1:5000/historical-risk?city=Lucknow
-🌐 External Services
-Service	Used For
-🌦️ Open-Meteo	Weather / forecast data
-🗺️ OpenStreetMap	Map data
-📍 Nominatim	Geocoding
-🛣️ OSRM	Driving routes
-🧭 Google Maps	Navigation/search links
+```
 
-External services may have their own availability, rate limits and usage policies.
+---
 
-🎯 Real-World Applications
-🏙️ Smart Cities
+# ▶️ Run the Application
 
-Location-based environmental monitoring and risk visualization.
+From the project root:
 
-🚗 Safer Travel
+```bash
+python app.py
+```
 
-Helps users understand whether environmental conditions may make travel risky.
+The Flask application normally runs at:
 
-🏫 Education
+```text
+http://127.0.0.1:5000
+```
 
-Demonstrates practical integration of AI, ML, APIs, maps and data processing.
+or:
 
-🚨 Disaster Awareness
+```text
+http://localhost:5000
+```
 
-Combines multiple hazard indicators into one interface.
+Open the address in your browser.
 
-🏢 Emergency Planning
+---
 
-Provides a prototype workflow for multi-hazard monitoring and decision support.
+# 🔌 Main API Endpoints
 
-🗺️ Location-Based Risk Analysis
+| Endpoint               | Purpose                               |
+| ---------------------- | ------------------------------------- |
+| `GET /`                | Loads the DisasterGuard AI dashboard  |
+| `GET /predict-flood`   | Predicts flood risk                   |
+| `GET /historical-risk` | Calculates historical disaster risk   |
+| `GET /safe-route`      | Analyses destination travel risk      |
+| `GET /compare-routes`  | Finds and compares alternative routes |
+| `GET /geocode`         | Geocodes a location                   |
 
-Combines geographic, weather and historical information for a selected area.
+### Flood Prediction Example
 
-🏆 Why DisasterGuard AI?
+```text
+/predict-flood?temperature=30&rainfall=120&wind=25
+```
 
-Unlike a basic weather application, DisasterGuard AI combines:
+### Historical Risk Example
 
+```text
+/historical-risk?city=Lucknow
+```
+
+---
+
+# 🌐 External Services
+
+| Service           | Purpose                   |
+| ----------------- | ------------------------- |
+| 🌦️ Open-Meteo    | Weather and forecast data |
+| 🗺️ OpenStreetMap | Map data                  |
+| 📍 Nominatim      | Destination geocoding     |
+| 🛣️ OSRM          | Driving route generation  |
+| 🧭 Google Maps    | Navigation/search links   |
+
+External services may have their own availability, usage limits and terms.
+
+---
+
+# 🎯 Real-World Applications
+
+DisasterGuard AI demonstrates how technology could support:
+
+### 🏙️ Smart Cities
+
+Monitor environmental conditions and present location-based risk information.
+
+### 🚗 Safer Travel
+
+Help users understand whether current environmental conditions may make a journey risky.
+
+### 🏫 Educational Institutions
+
+Demonstrate the practical use of:
+
+* Machine Learning
+* APIs
+* Maps
+* Data analysis
+* Web development
+
+### 🚨 Disaster Awareness
+
+Present multiple hazard indicators and safety recommendations through one interface.
+
+### 🏢 Emergency Planning
+
+Provide a prototype dashboard for studying multi-hazard monitoring workflows.
+
+### 🗺️ Location-Based Risk Analysis
+
+Combine geographic, weather and historical information for a selected area.
+
+---
+
+# 🏆 Why This Project Is Different
+
+DisasterGuard AI is not just a simple weather application.
+
+It combines:
+
+```text
 🤖 MACHINE LEARNING
         +
 🌦️ WEATHER DATA
         +
 📚 HISTORICAL DATA
         +
-📊 RISK ANALYSIS
+⚠️ RISK ANALYSIS
         +
-🗺️ RISK MAP
+🗺️ INTERACTIVE MAP
         +
-🚗 ROUTE COMPARISON
+🛣️ ROUTE COMPARISON
         +
 🚨 SAFETY GUIDANCE
-        =
+        ↓
 🛡️ DISASTERGUARD AI
+```
 
-This makes it suitable as a:
+This makes the project suitable for:
 
-🏆 Hackathon Prototype
-🎓 College Project
-🤖 AI/ML Demonstration
-🌍 Disaster-Management Concept
-💻 Full-Stack Application
-⚠️ Limitations
+* 🏆 Hackathons
+* 🎓 College projects
+* 🤖 AI/ML demonstrations
+* 🌍 Disaster-management concepts
+* 💻 Full-stack web development projects
 
-This project is a prototype and has important limitations:
+---
 
-The flood model uses a limited number of input features.
-Historical records are not a complete disaster database.
-ML predictions can produce false positives and false negatives.
-A prediction probability is not proof that a disaster will occur.
-Route risk is an estimation based on available risk information.
-Weather, geocoding and routing depend on third-party services.
-The system does not replace official government warnings.
-A production system would require stronger validation, monitoring, logging, security and reliable real-time hazard feeds.
-🔮 Future Improvements
+# 📊 Current Capabilities
 
-Possible future upgrades include:
+### Phase 1 — Core Intelligence
 
-🧠 Advanced ML and Deep Learning models
-🌊 Improved flood forecasting
-🛰️ Satellite and GIS hazard layers
-📡 Real-time emergency feeds
-📍 Live GPS tracking
-🚨 SMS / Email / Push Notifications
-📱 Android / Mobile Application
-🗄️ Database-backed event history
-👤 User Authentication
-🧭 Advanced route-risk scoring
-🗺️ Live flood-zone overlays
-🔥 Wildfire and heatwave prediction
-🌍 Additional disaster categories
-📈 Historical trend analytics
-☁️ Cloud deployment
-🐳 Docker support
-🧪 Automated ML evaluation
-💡 Explainable AI
-🔐 Responsible Use & Safety
+* ✅ AI flood prediction
+* ✅ Random Forest model
+* ✅ Live weather monitoring
+* ✅ Historical disaster analysis
+* ✅ Interactive risk mapping
 
-DisasterGuard AI is intended for:
+### Phase 2 — Advanced Intelligence
 
-Educational use
-Research
-Demonstration
-Hackathons
-Disaster-awareness concepts
+* ✅ Lightning risk analysis
+* ✅ Storm risk analysis
+* ✅ Severe weather analysis
+* ✅ Safe route analysis
+* ✅ Alternative route comparison
+* ✅ Location-based monitoring
+* ✅ Real-time map information
 
-Do not rely on this prototype as the sole source of information during an actual emergency.
+### Phase 3 — Emergency & Safety
 
-For real emergencies:
+* ✅ Emergency Action Center
+* ✅ Nearby hospitals
+* ✅ Police assistance
+* ✅ Shelter information
+* ✅ Safe-zone identification
+* ✅ Emergency-service support
+* ✅ Multi-hazard monitoring
+* ✅ Community-oriented disaster assistance
 
-🚨 Follow official government alerts, local authorities and emergency services.
+These capabilities represent the current project implementation and are not listed as future-only features.
 
-👩‍💻 Developer
-<div align="center">
-Krisha933
+---
 
-AI/ML • Full-Stack Development • Disaster-Safety Innovation
+# ⚠️ Limitations
 
-<a href="https://github.com/Krisha933"> <img src="https://img.shields.io/badge/GitHub-Krisha933-181717?style=for-the-badge&logo=github" alt="GitHub"> </a>
+The current project is a prototype and has important limitations:
 
-<br><br>
+* The flood model uses a limited set of input features.
+* Historical disaster data is limited compared with real-world disaster databases.
+* ML predictions can produce false positives or false negatives.
+* A model probability is not proof that a disaster will occur.
+* Route risk is an estimation based on available hazard values and route exposure.
+* External APIs depend on network connectivity and third-party availability.
+* Geographic coverage may vary depending on available data.
+* The project is not an official government emergency-warning system.
 
-Project Repository
+A production-grade system would require:
 
-<a href="https://github.com/Krisha933/DISASTERGUARD_AI"> https://github.com/Krisha933/DISASTERGUARD_AI </a> </div>
-📜 License
+* Reliable real-time disaster data
+* Stronger model validation
+* Authentication
+* Logging
+* Monitoring
+* Better data pipelines
+* Scalable infrastructure
+* Official emergency-data integrations
 
-This project is currently intended for educational and research purposes.
+---
 
-If you want to officially open-source the project for reuse, modification and distribution, consider adding an appropriate license such as the MIT License.
+# 🔮 Future Improvements
 
-⭐ Support the Project
+Possible future enhancements include:
 
-If you find DisasterGuard AI useful or interesting:
+* 🧠 Advanced Deep Learning models
+* 🌊 More advanced flood forecasting
+* 🛰️ Satellite imagery integration
+* 📡 IoT sensor integration
+* 📍 Real-time GPS tracking
+* 🚨 SMS / Email / Push notifications
+* 📱 Dedicated Android/iOS application
+* 🗄️ Database-backed event history
+* 👤 User authentication
+* 🧭 Advanced route-risk scoring
+* 🗺️ Live flood-zone overlays
+* 🔥 Wildfire and heatwave prediction
+* 🌍 Additional disaster categories
+* 📈 Historical trend analytics
+* ☁️ Cloud deployment
+* 🐳 Docker support
+* 🧪 Automated ML model evaluation
+* 💡 Explainable AI for predictions
 
-⭐ Star the repository
-🍴 Fork the project
-🐛 Report issues
-💡 Suggest improvements
-🤝 Contribute ideas
+---
 
-<div align="center">
-🛡️ DisasterGuard AI
-Predict • Monitor • Analyse • Navigate • Stay Safe
+# 🔐 Safety & Responsible Use
 
-🌦️ Weather Intelligence
-🤖 AI Flood Prediction
-🗺️ Multi-Hazard Mapping
+DisasterGuard AI is designed for educational, research, hackathon and safety-awareness purposes.
+
+**Do not rely on this prototype as the sole source of information during an actual emergency.**
+
+During a real disaster, always follow instructions from:
+
+* Government authorities
+* Official disaster-management agencies
+* Local emergency services
+* Official weather authorities
+
+---
+
+# 👩‍💻 Developer
+
+**Krisha Singh**
+
+**B.Tech Computer Science & Engineering**
+
+🌪️ **DisasterGuard AI**
+
+GitHub:
+[https://github.com/Krisha933](https://github.com/Krisha933)
+
+---
+
+# 📜 License
+
+This project is intended for educational and research purposes.
+
+If you want others to legally use, modify and distribute the project, consider adding an open-source license such as the **MIT License**.
+
+---
+
+# ⭐ Conclusion
+
+DisasterGuard AI demonstrates how Machine Learning, weather intelligence, historical disaster data, interactive maps and route analysis can be combined into a single disaster-risk monitoring platform.
+
+```text
+🌦️ Environmental Monitoring
+          ↓
+🤖 ML Flood Prediction
+          ↓
+📚 Historical Risk Analysis
+          ↓
+🗺️ Multi-Hazard Visualization
+          ↓
 🚗 Safe Route Analysis
-🚨 Safety Guidance
+          ↓
+🚨 Safety Recommendations
+```
 
+## 🎯 Project Goal
 
-</div> ```
+> **Make disaster-related information easier to understand and demonstrate how AI and modern web technologies can support smarter, safer and more informed decision-making.**
+
+---
+
+<p align="center">
+
+## 🛡️ DisasterGuard AI
+
+### Predict • Monitor • Analyse • Navigate • Stay Safe
+
+Made with ❤️ for AI, ML & Disaster-Safety Innovation
+
+</p>
