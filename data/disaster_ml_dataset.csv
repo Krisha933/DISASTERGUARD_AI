@@ -1,0 +1,7 @@
+city,year,rainfall_mm,flood,thunderstorm,lightning,risk_score,risk_level
+Lucknow,2022,85,1,0,0,50,HIGH
+Lucknow,2023,72,0,1,0,80,CRITICAL
+Lucknow,2024,110,1,0,0,80,CRITICAL
+Lucknow,2025,65,0,0,1,50,HIGH
+Kanpur,2024,120,1,0,0,80,CRITICAL
+Varanasi,2024,130,1,0,0,80,CRITICAL

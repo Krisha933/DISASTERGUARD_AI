@@ -1,0 +1,44 @@
+[
+    {
+        "city": "Lucknow",
+        "year": 2022,
+        "disaster": "Flood",
+        "severity": "Medium",
+        "rainfall_mm": 85
+    },
+    {
+        "city": "Lucknow",
+        "year": 2023,
+        "disaster": "Thunderstorm",
+        "severity": "High",
+        "rainfall_mm": 72
+    },
+    {
+        "city": "Lucknow",
+        "year": 2024,
+        "disaster": "Flood",
+        "severity": "High",
+        "rainfall_mm": 110
+    },
+    {
+        "city": "Lucknow",
+        "year": 2025,
+        "disaster": "Lightning",
+        "severity": "Medium",
+        "rainfall_mm": 65
+    },
+    {
+        "city": "Kanpur",
+        "year": 2024,
+        "disaster": "Flood",
+        "severity": "High",
+        "rainfall_mm": 120
+    },
+    {
+        "city": "Varanasi",
+        "year": 2024,
+        "disaster": "Flood",
+        "severity": "High",
+        "rainfall_mm": 130
+    }
+]

@@ -1,0 +1,2634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DisasterGuard AI</title>
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <!-- Leaflet CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+</head>
+
+<body>
+
+    <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <div class="logo-icon">
+                🛡️
+            </div>
+
+            <div>
+                <h2>DisasterGuard</h2>
+                <span>AI</span>
+            </div>
+
+        </div>
+
+        <div class="tagline">
+            Predict • Warn • Protect
+        </div>
+
+        <nav>
+
+            <a href="#" class="active">
+                <span>📊</span>
+                Dashboard
+            </a>
+
+            <a href="#">
+                <span>🗺️</span>
+                Risk Map
+            </a>
+
+            <a href="#">
+                <span>📚</span>
+                Historical Data
+            </a>
+
+            <a href="#">
+                <span>🔔</span>
+                Alerts
+            </a>
+
+            <a href="#">
+                <span>🛟</span>
+                Safety
+            </a>
+
+            <a href="#">
+                <span>📢</span>
+                Reports
+            </a>
+
+            <a href="#" class="emergency">
+                <span>🚨</span>
+                Emergency Mode
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <p>
+                Multi-Hazard Intelligence
+            </p>
+
+            <small>
+                SIH26072 • SIH26077 • SIH26085
+            </small>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <header class="top-header">
+
+            <div>
+
+                <p class="small-title">
+                    DISASTER MANAGEMENT
+                </p>
+
+                <h1>
+                    Disaster Dashboard
+                </h1>
+
+                <p class="subtitle">
+                    Hyper-Local Multi-Hazard Monitoring & Early Warning
+                </p>
+
+            </div>
+
+
+            <div class="location-box">
+
+                <span>
+                    📍
+                </span>
+
+                <div>
+
+                    <small>
+                        MONITORING LOCATION
+                    </small>
+
+                    <strong id="locationText">
+                        Detecting location...
+                    </strong>
+
+                </div>
+
+                <button id="locationBtn">
+                    Detect
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <!-- =================================================
+             RISK BANNER
+        ================================================== -->
+
+        <section class="risk-banner">
+
+            <div>
+
+                <span
+                    class="status-badge"
+                    id="safetyStatus"
+                >
+                    ⚠️ WATCH
+                </span>
+
+                <h2>
+                    Current Safety Status
+                </h2>
+
+                <p id="safetyMessage">
+                    Some environmental conditions require monitoring.
+                </p>
+
+            </div>
+
+
+            <div class="overall-risk">
+
+                <span>
+                    OVERALL RISK
+                </span>
+
+                <strong id="riskScore">
+                    32
+                </strong>
+
+                <small>
+                    / 100
+                </small>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             RISK CARDS
+        ================================================== -->
+
+        <section class="risk-cards">
+
+
+            <!-- WEATHER -->
+
+            <div class="risk-card weather">
+
+                <div class="card-top">
+
+                    <span class="card-icon">
+                        🌦️
+                    </span>
+
+                    <span
+                        class="risk-level"
+                        id="stormLevel"
+                    >
+                        MEDIUM
+                    </span>
+
+                </div>
+
+                <h3>
+                    Weather Risk
+                </h3>
+
+                <strong id="weatherRisk">
+                    42%
+                </strong>
+
+                <p>
+                    Severe weather conditions monitored
+                </p>
+
+            </div>
+
+
+            <!-- FLOOD -->
+
+            <div class="risk-card flood">
+
+                <div class="card-top">
+
+                    <span class="card-icon">
+                        🌊
+                    </span>
+
+                    <span
+                        class="risk-level"
+                        id="floodLevel"
+                    >
+                        LOW
+                    </span>
+
+                </div>
+
+                <h3>
+                    Flood Risk
+                </h3>
+
+                <strong id="floodRisk">
+                    21%
+                </strong>
+
+                <p>
+                    Rainfall & drainage conditions
+                </p>
+
+                <small id="floodProbability">
+                    ML Prediction: Waiting...
+                </small>
+
+            </div>
+
+
+            <!-- LIGHTNING -->
+
+            <div class="risk-card lightning">
+
+                <div class="card-top">
+
+                    <span class="card-icon">
+                        ⚡
+                    </span>
+
+                    <span
+                        class="risk-level"
+                        id="lightningLevel"
+                    >
+                        LOW
+                    </span>
+
+                </div>
+
+                <h3>
+                    Lightning Risk
+                </h3>
+
+                <strong id="lightningRisk">
+                    18%
+                </strong>
+
+                <p>
+                    Atmospheric lightning activity
+                </p>
+
+            </div>
+
+
+            <!-- STORM -->
+
+            <div class="risk-card storm">
+
+                <div class="card-top">
+
+                    <span class="card-icon">
+                        ⛈️
+                    </span>
+
+                    <span class="risk-level medium">
+                        MEDIUM
+                    </span>
+
+                </div>
+
+                <h3>
+                    Storm Risk
+                </h3>
+
+                <strong id="stormRisk">
+                    38%
+                </strong>
+
+                <p>
+                    Thunderstorm probability
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             DASHBOARD GRID
+        ================================================== -->
+
+        <section class="dashboard-grid">
+
+
+            <!-- =================================================
+                 MAP
+            ================================================== -->
+
+            <div class="panel map-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            🗺️ Multi-Hazard Risk Map
+                        </h2>
+
+                        <p>
+                            Live location-based disaster risk zones
+                        </p>
+
+                    </div>
+
+                    <button class="map-btn">
+                        View Full Map
+                    </button>
+
+                </div>
+
+
+                <div class="map-placeholder">
+
+                    <div class="map-container">
+
+
+                        <!-- LOCATION SEARCH -->
+
+                        <div class="location-search">
+
+                            <input
+                                type="text"
+                                id="locationSearch"
+                                placeholder="🔍 Enter city or location..."
+                            >
+
+                            <button id="searchLocationBtn">
+                                Search
+                            </button>
+
+                        </div>
+
+
+                        <!-- LEAFLET MAP -->
+
+                        <div id="riskMap"></div>
+
+
+                        <!-- MAP OVERLAY -->
+
+                        <div class="map-overlay">
+
+                            <div class="map-status">
+
+                                <span class="live-dot"></span>
+
+                                LIVE RISK MAP
+
+                            </div>
+
+
+                            <div class="map-layers">
+
+                                <button class="layer-btn active">
+                                    🌐 All
+                                </button>
+
+                                <button class="layer-btn">
+                                    🌊 Flood
+                                </button>
+
+                                <button class="layer-btn">
+                                    ⚡ Lightning
+                                </button>
+
+                                <button class="layer-btn">
+                                    ⛈️ Storm
+                                </button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="map-center">
+
+                        <div class="map-pin">
+                            📍
+                        </div>
+
+                        <h3>
+                            Your Monitoring Area
+                        </h3>
+
+                        <p>
+                            Live interactive map will appear here
+                        </p>
+
+
+                        <div class="map-legend">
+
+                            <span>
+                                <i class="safe-dot"></i>
+                                Safe
+                            </span>
+
+                            <span>
+                                <i class="watch-dot"></i>
+                                Watch
+                            </span>
+
+                            <span>
+                                <i class="warning-dot"></i>
+                                Warning
+                            </span>
+
+                            <span>
+                                <i class="critical-dot"></i>
+                                Critical
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 PREDICTION
+            ================================================== -->
+
+            <div class="panel prediction-panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            🔮 Risk Prediction
+                        </h2>
+
+                        <p>
+                            Next 6 hours
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="timeline">
+
+
+                    <div class="time-item active">
+
+                        <span>
+                            NOW
+                        </span>
+
+                        <strong id="riskNow">
+                            32
+                        </strong>
+
+                        <small id="levelNow">
+                            WATCH
+                        </small>
+
+                    </div>
+
+
+                    <div class="time-item">
+
+                        <span>
+                            +1 HR
+                        </span>
+
+                        <strong id="risk1hr">
+                            38
+                        </strong>
+
+                        <small id="level1hr">
+                            WATCH
+                        </small>
+
+                    </div>
+
+
+                    <div class="time-item">
+
+                        <span>
+                            +3 HR
+                        </span>
+
+                        <strong id="risk3hr">
+                            47
+                        </strong>
+
+                        <small id="level3hr">
+                            WATCH
+                        </small>
+
+                    </div>
+
+
+                    <div class="time-item">
+
+                        <span>
+                            +6 HR
+                        </span>
+
+                        <strong id="risk6hr">
+                            61
+                        </strong>
+
+                        <small id="level6hr">
+                            WARNING
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="prediction-message">
+
+                    <span>
+                        🤖
+                    </span>
+
+                    <p>
+                        AI estimates increasing risk over the
+                        next few hours based on current conditions.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 WHY THIS RISK
+            ================================================== -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            🤖 Why This Risk?
+                        </h2>
+
+                        <p>
+                            AI risk-factor analysis
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RAINFALL -->
+
+                <div class="factor">
+
+                    <div>
+
+                        <span>
+                            🌧️ Rainfall
+                        </span>
+
+                        <small id="rainfallValue">
+                            Waiting...
+                        </small>
+
+                    </div>
+
+                    <div class="progress">
+
+                        <div style="width: 58%"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- HUMIDITY -->
+
+                <div class="factor">
+
+                    <div>
+
+                        <span>
+                            💧 Humidity
+                        </span>
+
+                        <small id="humidityValue">
+                            Waiting...
+                        </small>
+
+                    </div>
+
+                    <div class="progress">
+
+                        <div style="width: 72%"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- WIND -->
+
+                <div class="factor">
+
+                    <div>
+
+                        <span>
+                            🌬️ Wind
+                        </span>
+
+                        <small id="windValue">
+                            Waiting...
+                        </small>
+
+                    </div>
+
+                    <div class="progress">
+
+                        <div style="width: 44%"></div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- HISTORICAL RISK -->
+
+                <div class="factor">
+
+                    <div>
+
+                        <span>
+                            📚 Historical Risk
+                        </span>
+
+                        <small id="historicalRiskLevel">
+                            Waiting...
+                        </small>
+
+                    </div>
+
+                    <div class="progress">
+
+                        <div
+                            id="historicalRiskProgress"
+                            style="width: 0%"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 HISTORICAL VS CURRENT
+            ================================================== -->
+
+            <div class="panel">
+
+                <div class="panel-header">
+
+                    <div>
+
+                        <h2>
+                            📚 Historical vs Current
+                        </h2>
+
+                        <p>
+                            Area disaster pattern analysis
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <div class="comparison">
+
+
+                    <div class="comparison-item">
+
+                        <span>
+                            Historical Risk
+                        </span>
+
+                        <strong id="comparisonHistoricalRisk">
+                            --%
+                        </strong>
+
+                        <small>
+                            Based on previous events
+                        </small>
+
+                    </div>
+
+
+                    <div class="comparison-arrow">
+                        →
+                    </div>
+
+
+                    <div class="comparison-item">
+
+                        <span>
+                            Current Risk
+                        </span>
+
+                        <strong id="comparisonCurrentRisk">
+                            --%
+                        </strong>
+
+                        <small>
+                            Based on current conditions
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <div class="analysis-note">
+
+                    🧠
+
+                    <span id="comparisonMessage">
+                        AI compares historical patterns with
+                        current environmental conditions.
+                    </span>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ALERT
+        ================================================== -->
+
+        <section class="alert-section">
+
+            <div class="alert-icon">
+                🔔
+            </div>
+
+            <div class="alert-content">
+
+                <span>
+                    LATEST ALERT
+                </span>
+
+                <h3 id="latestAlertTitle">
+                    Weather conditions are being monitored
+                </h3>
+
+                <p id="latestAlertMessage">
+                    Stay updated if the risk level increases.
+                </p>
+
+            </div>
+
+            <button id="viewAlertsBtn">
+                View Alerts
+            </button>
+
+        </section>
+
+
+        <!-- =================================================
+             SAFE ROUTE & EMERGENCY SECTION
+        ================================================== -->
+
+        <section class="safety-section">
+
+            <div class="safety-header">
+
+                <div>
+
+                    <span class="section-tag">
+                        🛡️ AI SAFETY
+                    </span>
+
+                    <h2>
+                        Safe Route & Emergency
+                    </h2>
+
+                    <p>
+                        Risk-based safety recommendations for your location
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="safety-grid">
+
+
+                <!-- SAFE ROUTE -->
+
+                <div class="safety-card">
+
+                    <div class="safety-icon">
+                        🛣️
+                    </div>
+
+                    <h3>
+                        Safe Route
+                    </h3>
+
+                    <p id="safeRouteMessage">
+                        AI is monitoring the current risk level.
+                    </p>
+
+
+                    <div class="route-input-group">
+
+                        <label for="safeRouteDestination">
+                            📍 Enter Destination
+                        </label>
+
+                        <input
+                            type="text"
+                            id="safeRouteDestination"
+                            placeholder="Example: Varanasi Cantt"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <button
+                        id="safeRouteBtn"
+                        class="safety-btn"
+                    >
+                        🗺️ Find Safe Route
+                    </button>
+
+                </div>
+
+
+                <!-- EMERGENCY HELP -->
+
+                <div class="safety-card emergency-card">
+
+                    <div class="safety-icon">
+                        🆘
+                    </div>
+
+                    <h3>
+                        Emergency Help
+                    </h3>
+
+                    <p>
+                        Use emergency services when immediate help
+                        is required.
+                    </p>
+
+
+                    <div class="emergency-buttons">
+
+                        <button
+                            onclick="window.location.href='tel:112'"
+                        >
+                            📞 Call 112
+                        </button>
+
+                        <button
+                            onclick="window.location.href='tel:108'"
+                        >
+                            🚑 Ambulance
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SAFETY INSTRUCTIONS -->
+
+                <div class="safety-card">
+
+                    <div class="safety-icon">
+                        ⚠️
+                    </div>
+
+                    <h3>
+                        Safety Instructions
+                    </h3>
+
+                    <ul id="safetyInstructions">
+
+                        <li>
+                            Stay updated with weather conditions.
+                        </li>
+
+                        <li>
+                            Avoid unnecessary travel during high risk.
+                        </li>
+
+                        <li>
+                            Follow official emergency instructions.
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+<!-- =====================================================
+     🚨 AI EMERGENCY ACTION CENTER
+     DISASTERGUARD AI
+====================================================== -->
+
+<section
+    id="emergencyActionCenter"
+    class="emergency-action-section"
+>
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <div class="emergency-header">
+
+        <div class="emergency-header-left">
+
+            <div class="emergency-section-label">
+                <span>🚨</span>
+                AI SAFETY SYSTEM
+            </div>
+
+            <h2>
+                Emergency Action Center
+            </h2>
+
+            <p>
+                Real-time AI-powered safety guidance based
+                on current multi-hazard conditions.
+            </p>
+
+        </div>
+
+
+        <div
+            id="emergencyStatusBadge"
+            class="emergency-status-badge"
+        >
+            🟢 LOW RISK
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         CURRENT RISK STATUS
+    ================================================== -->
+
+    <div
+        id="emergencyStatusCard"
+        class="emergency-status-card emergency-low"
+    >
+
+        <div
+            id="emergencyStatusIcon"
+            class="emergency-status-icon"
+        >
+            🟢
+        </div>
+
+
+        <div class="emergency-status-content">
+
+            <div class="emergency-status-top">
+
+                <div>
+
+                    <span class="emergency-status-label">
+                        CURRENT SAFETY STATUS
+                    </span>
+
+                    <h3 id="emergencyStatusTitle">
+                        Conditions Currently Stable
+                    </h3>
+
+                </div>
+
+            </div>
+
+
+            <p id="emergencyStatusMessage">
+                DisasterGuard AI is monitoring current
+                environmental conditions.
+            </p>
+
+
+            <div class="emergency-risk-row">
+
+                <span>
+                    Overall Risk Score
+                </span>
+
+                <strong id="emergencyRiskScore">
+                    0/100
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         QUICK ACTIONS
+    ================================================== -->
+
+    <div class="emergency-section-heading">
+
+        <div>
+
+            <span>
+                QUICK RESPONSE
+            </span>
+
+            <h3>
+                Emergency Assistance
+            </h3>
+
+        </div>
+
+        <p>
+            Find nearby assistance or navigate to safety.
+        </p>
+
+    </div>
+
+
+    <div class="emergency-actions-grid">
+
+
+        <!-- SHELTER -->
+
+        <div class="emergency-action-card">
+
+            <div class="emergency-action-icon shelter-icon">
+                📍
+            </div>
+
+            <div class="emergency-action-content">
+
+                <span class="emergency-action-label">
+                    SAFE LOCATION
+                </span>
+
+                <h3>
+                    Nearest Safe Shelter
+                </h3>
+
+                <p id="nearestShelter">
+                    Find the nearest emergency shelter
+                    around your current location.
+                </p>
+
+                <button
+                    type="button"
+                    id="findShelterBtn"
+                    class="emergency-action-btn"
+                >
+                    <span>📍</span>
+                    Find Shelter
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- HOSPITAL -->
+
+        <div class="emergency-action-card">
+
+            <div class="emergency-action-icon hospital-icon">
+                🏥
+            </div>
+
+            <div class="emergency-action-content">
+
+                <span class="emergency-action-label">
+                    MEDICAL ASSISTANCE
+                </span>
+
+                <h3>
+                    Nearest Hospital
+                </h3>
+
+                <p id="nearestHospital">
+                    Locate the nearest hospital for
+                    emergency medical assistance.
+                </p>
+
+                <button
+                    type="button"
+                    id="findHospitalBtn"
+                    class="emergency-action-btn"
+                >
+                    <span>🏥</span>
+                    Find Hospital
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- POLICE -->
+
+        <div class="emergency-action-card">
+
+            <div class="emergency-action-icon police-icon">
+                🚓
+            </div>
+
+            <div class="emergency-action-content">
+
+                <span class="emergency-action-label">
+                    SECURITY ASSISTANCE
+                </span>
+
+                <h3>
+                    Nearest Police Station
+                </h3>
+
+                <p id="nearestPolice">
+                    Locate the nearest police station
+                    for emergency assistance.
+                </p>
+
+                <button
+                    type="button"
+                    id="findPoliceBtn"
+                    class="emergency-action-btn"
+                >
+                    <span>🚓</span>
+                    Find Police
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <div class="emergency-action-card">
+
+            <div class="emergency-action-icon navigation-icon">
+                🗺️
+            </div>
+
+            <div class="emergency-action-content">
+
+                <span class="emergency-action-label">
+                    SAFE NAVIGATION
+                </span>
+
+                <h3>
+                    Navigate to Safety
+                </h3>
+
+                <p id="safeNavigationMessage">
+                    Use your current location to open
+                    emergency-safe navigation.
+                </p>
+
+                <button
+                    type="button"
+                    id="navigateSafeBtn"
+                    class="emergency-action-btn emergency-primary-btn"
+                >
+                    <span>🗺️</span>
+                    Navigate to Safety
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         AI HAZARD INSTRUCTIONS
+    ================================================== -->
+
+    <div class="emergency-panel hazard-panel">
+
+        <div class="emergency-panel-header">
+
+            <div>
+
+                <span class="emergency-panel-label">
+                    AI SAFETY ENGINE
+                </span>
+
+                <h3>
+                    ⚡ Hazard-Specific Instructions
+                </h3>
+
+                <p>
+                    Safety recommendations generated from
+                    current detected hazards.
+                </p>
+
+            </div>
+
+
+            <span
+                id="hazardInstructionRisk"
+                class="hazard-risk-badge"
+            >
+                MONITORING...
+            </span>
+
+        </div>
+
+
+        <div
+            id="hazardSpecificInstructions"
+            class="hazard-instruction-list"
+        >
+
+            <div class="hazard-tip hazard-tip-neutral">
+
+                <span class="hazard-tip-icon">
+                    🛡️
+                </span>
+
+                <div>
+
+                    <strong>
+                        System Monitoring
+                    </strong>
+
+                    <p>
+                        Waiting for current hazard analysis...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         EMERGENCY CONTACTS
+    ================================================== -->
+
+    <div class="emergency-panel contacts-panel">
+
+        <div class="emergency-panel-header">
+
+            <div>
+
+                <span class="emergency-panel-label">
+                    QUICK ACCESS
+                </span>
+
+                <h3>
+                    📞 Emergency Contacts
+                </h3>
+
+                <p>
+                    Official emergency numbers for India.
+                </p>
+
+            </div>
+
+
+            <span class="india-badge">
+                🇮🇳 INDIA
+            </span>
+
+        </div>
+
+
+        <div class="emergency-contacts-grid">
+
+
+            <a
+                href="tel:112"
+                class="emergency-contact-card emergency-contact-critical"
+            >
+
+                <div class="contact-icon">
+                    🚨
+                </div>
+
+                <div class="contact-info">
+
+                    <strong>
+                        112
+                    </strong>
+
+                    <span>
+                        National Emergency
+                    </span>
+
+                </div>
+
+                <span class="contact-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <a
+                href="tel:108"
+                class="emergency-contact-card"
+            >
+
+                <div class="contact-icon">
+                    🚑
+                </div>
+
+                <div class="contact-info">
+
+                    <strong>
+                        108
+                    </strong>
+
+                    <span>
+                        Ambulance
+                    </span>
+
+                </div>
+
+                <span class="contact-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <a
+                href="tel:101"
+                class="emergency-contact-card"
+            >
+
+                <div class="contact-icon">
+                    🔥
+                </div>
+
+                <div class="contact-info">
+
+                    <strong>
+                        101
+                    </strong>
+
+                    <span>
+                        Fire Service
+                    </span>
+
+                </div>
+
+                <span class="contact-arrow">
+                    →
+                </span>
+
+            </a>
+
+
+            <a
+                href="tel:100"
+                class="emergency-contact-card"
+            >
+
+                <div class="contact-icon">
+                    🚓
+                </div>
+
+                <div class="contact-info">
+
+                    <strong>
+                        100
+                    </strong>
+
+                    <span>
+                        Police
+                    </span>
+
+                </div>
+
+                <span class="contact-arrow">
+                    →
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         MONITORING STATUS
+    ================================================== -->
+
+    <div class="emergency-monitoring-bar">
+
+        <div class="monitoring-left">
+
+            <div class="monitoring-indicator"></div>
+
+            <div>
+
+                <strong>
+                    AI Emergency Monitoring
+                </strong>
+
+                <p id="emergencyMonitoringMessage">
+                    DisasterGuard AI is actively monitoring
+                    your current conditions.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="emergencyTimer"
+            class="emergency-timer"
+        >
+            10:00
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         EMERGENCY MODE
+    ================================================== -->
+
+    <div
+        class="emergency-mode-panel"
+        id="emergencyModePanel"
+    >
+
+        <div class="emergency-mode-content">
+
+            <div class="emergency-mode-icon">
+                📢
+            </div>
+
+            <div>
+
+                <span>
+                    EMERGENCY RESPONSE
+                </span>
+
+                <h3>
+                    Need Immediate Assistance?
+                </h3>
+
+                <p id="emergencyAlertDescription">
+                    Activate Emergency Mode for
+                    immediate safety guidance.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="activateEmergencyBtn"
+            class="activate-emergency-btn"
+        >
+            🚨 ACTIVATE EMERGENCY MODE
+        </button>
+
+    </div>
+
+</section>
+<!-- =====================================================
+     🔔 ALERT DETAILS MODAL
+====================================================== -->
+
+<div
+    id="alertModal"
+    class="alert-modal"
+>
+
+    <div class="alert-modal-content">
+
+        <button
+            type="button"
+            id="closeAlertModal"
+            class="alert-modal-close"
+        >
+            ✕
+        </button>
+
+
+        <div class="alert-modal-header">
+
+            <div class="alert-modal-icon">
+                🚨
+            </div>
+
+            <div>
+
+                <span>
+                    DISASTERGUARD AI
+                </span>
+
+                <h2>
+                    Current Risk Alert
+                </h2>
+
+            </div>
+
+        </div>
+
+
+        <div class="alert-modal-body">
+
+            <h3 id="modalAlertTitle">
+                Current conditions are being monitored.
+            </h3>
+
+            <p id="modalAlertMessage">
+                Stay updated with current environmental conditions.
+            </p>
+
+
+            <div class="alert-risk-grid">
+
+                <div class="alert-risk-item">
+
+                    <span>
+                        🌦️ Weather
+                    </span>
+
+                    <strong id="modalWeatherRisk">
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="alert-risk-item">
+
+                    <span>
+                        🌊 Flood
+                    </span>
+
+                    <strong id="modalFloodRisk">
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="alert-risk-item">
+
+                    <span>
+                        ⚡ Lightning
+                    </span>
+
+                    <strong id="modalLightningRisk">
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="alert-risk-item">
+
+                    <span>
+                        ⛈️ Storm
+                    </span>
+
+                    <strong id="modalStormRisk">
+                        0%
+                    </strong>
+
+                </div>
+
+
+                <div class="alert-risk-item overall">
+
+                    <span>
+                        🛡️ Overall Risk
+                    </span>
+
+                    <strong id="modalOverallRisk">
+                        0%
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Leaflet JavaScript -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- DisasterGuard AI JavaScript -->
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+<!-- =====================================================
+     🗺️ AI SAFE ROUTE ANALYSIS MODAL
+====================================================== -->
+
+<div
+    id="routeAnalysisModal"
+    class="route-analysis-modal"
+>
+
+    <div class="route-analysis-content">
+
+        <!-- CLOSE BUTTON -->
+        <button
+            type="button"
+            id="closeRouteModal"
+            class="route-modal-close"
+        >
+            ✕
+        </button>
+
+
+        <!-- HEADER -->
+        <div class="route-modal-header">
+
+            <div class="route-modal-icon">
+                🗺️
+            </div>
+
+            <div>
+
+                <span class="route-modal-label">
+                    DISASTERGUARD AI
+                </span>
+
+                <h2>
+                    AI Safe Route Analysis
+                </h2>
+
+                <p id="routeDestination">
+                    Destination: --
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- OVERALL RISK -->
+        <div class="route-overall-card">
+
+            <div>
+
+                <span>
+                    🛡️ Overall Route Risk
+                </span>
+
+                <strong id="routeOverallRisk">
+                    0%
+                </strong>
+
+            </div>
+
+            <div class="route-risk-description">
+                AI-powered multi-hazard route comparison
+            </div>
+
+        </div>
+
+
+        <!-- ROUTE RESULTS -->
+        <div class="route-results-section">
+
+            <div class="route-results-title">
+                <span>🛣️ Available Routes</span>
+
+                <small>
+                    Lowest-risk route is recommended
+                </small>
+            </div>
+
+
+            <div id="routeResults">
+
+                <!-- JavaScript will insert routes here -->
+
+            </div>
+
+        </div>
+
+
+        <!-- AI RECOMMENDATION -->
+        <div class="route-recommendation-section">
+
+            <div class="route-recommendation-title">
+                🤖 AI Recommendation
+            </div>
+
+            <div id="routeRecommendation">
+
+                Analysing available routes...
+
+            </div>
+
+        </div>
+
+
+        <!-- OPEN GOOGLE MAPS -->
+        <button
+            type="button"
+            id="openRecommendedRoute"
+            class="open-route-btn"
+        >
+            🗺️ Open Recommended Route in Google Maps
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     🔮 WHAT-IF DISASTER SIMULATOR
+====================================================== -->
+
+<section
+    id="whatIfSimulator"
+    class="what-if-section"
+>
+
+    <div class="what-if-header">
+
+        <div>
+
+            <div class="what-if-label">
+                🔮 AI SIMULATION ENGINE
+            </div>
+
+            <h2>
+                What-If Disaster Simulator
+            </h2>
+
+            <p>
+                Simulate changing weather conditions and
+                see how disaster risk may change.
+            </p>
+
+        </div>
+
+        <div
+            id="simulationStatus"
+            class="simulation-status"
+        >
+            🟢 READY
+        </div>
+
+    </div>
+
+
+    <!-- CURRENT RISK -->
+
+    <div class="simulation-current-card">
+
+        <div>
+
+            <span>
+                CURRENT AI RISK
+            </span>
+
+            <strong
+                id="simulationCurrentRisk"
+            >
+                0/100
+            </strong>
+
+        </div>
+
+        <div
+            id="simulationCurrentLevel"
+            class="simulation-risk-level"
+        >
+            LOW
+        </div>
+
+    </div>
+
+
+    <!-- SIMULATION CONTROLS -->
+
+    <div class="simulation-controls">
+
+        <div class="simulation-control">
+
+            <div class="simulation-control-top">
+
+                <label>
+                    🌧️ Rainfall Change
+                </label>
+
+                <strong
+                    id="simulationRainfallValue"
+                >
+                    +0%
+                </strong>
+
+            </div>
+
+            <input
+                type="range"
+                id="simulationRainfall"
+                min="-50"
+                max="200"
+                value="0"
+                step="10"
+            >
+
+            <div class="simulation-range-labels">
+                <span>-50%</span>
+                <span>0%</span>
+                <span>+200%</span>
+            </div>
+
+        </div>
+
+
+        <div class="simulation-control">
+
+            <div class="simulation-control-top">
+
+                <label>
+                    💨 Wind Change
+                </label>
+
+                <strong
+                    id="simulationWindValue"
+                >
+                    +0%
+                </strong>
+
+            </div>
+
+            <input
+                type="range"
+                id="simulationWind"
+                min="-50"
+                max="200"
+                value="0"
+                step="10"
+            >
+
+            <div class="simulation-range-labels">
+                <span>-50%</span>
+                <span>0%</span>
+                <span>+200%</span>
+            </div>
+
+        </div>
+
+
+        <div class="simulation-control">
+
+            <div class="simulation-control-top">
+
+                <label>
+                    💧 Humidity Change
+                </label>
+
+                <strong
+                    id="simulationHumidityValue"
+                >
+                    +0%
+                </strong>
+
+            </div>
+
+            <input
+                type="range"
+                id="simulationHumidity"
+                min="-30"
+                max="30"
+                value="0"
+                step="5"
+            >
+
+            <div class="simulation-range-labels">
+                <span>-30%</span>
+                <span>0%</span>
+                <span>+30%</span>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- SIMULATION RESULT -->
+
+    <div class="simulation-result">
+
+        <div class="simulation-result-main">
+
+            <span>
+                🔮 SIMULATED RISK
+            </span>
+
+            <strong
+                id="simulationRiskScore"
+            >
+                0/100
+            </strong>
+
+            <div
+                id="simulationRiskLevel"
+                class="simulation-risk-level"
+            >
+                LOW
+            </div>
+
+        </div>
+
+
+        <div class="simulation-change">
+
+            <span>
+                Risk Change
+            </span>
+
+            <strong
+                id="simulationRiskChange"
+            >
+                0
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <div
+        id="simulationExplanation"
+        class="simulation-explanation"
+    >
+        🤖 Adjust the sliders to simulate
+        changing disaster conditions.
+    </div>
+
+
+    <button
+        type="button"
+        id="resetSimulationBtn"
+        class="simulation-reset-btn"
+    >
+        ↺ Reset Simulation
+    </button>
+
+</section>
+
+
+<!-- =====================================================
+     🧠 AI DISASTER COPILOT
+====================================================== -->
+
+<section
+    id="aiDisasterCopilot"
+    class="ai-copilot-section"
+>
+
+    <!-- COPILOT HEADER -->
+
+    <div class="ai-copilot-header">
+
+        <div class="ai-copilot-header-left">
+
+            <div class="ai-copilot-label">
+                <span>🧠</span>
+                AI SAFETY ASSISTANT
+            </div>
+
+            <h2>
+                AI Disaster Copilot
+            </h2>
+
+            <p>
+                Ask questions about current disaster risks,
+                weather conditions and safety precautions.
+            </p>
+
+        </div>
+
+
+        <div
+            id="copilotStatus"
+            class="copilot-status"
+        >
+            🟢 ONLINE
+        </div>
+
+    </div>
+
+
+    <!-- QUICK QUESTIONS -->
+
+    <div class="copilot-section-title">
+        💡 Quick Questions
+    </div>
+
+
+    <div class="copilot-quick-actions">
+
+        <button
+            type="button"
+            class="copilot-question-btn"
+            data-question="Why is my current disaster risk high?"
+        >
+            ⚠️ Why is my risk high?
+        </button>
+
+
+        <button
+            type="button"
+            class="copilot-question-btn"
+            data-question="What safety precautions should I take now?"
+        >
+            🛡️ What precautions should I take?
+        </button>
+
+
+        <button
+            type="button"
+            class="copilot-question-btn"
+            data-question="What is the current flood risk?"
+        >
+            🌊 What is the flood risk?
+        </button>
+
+
+        <button
+            type="button"
+            class="copilot-question-btn"
+            data-question="What should I do during lightning?"
+        >
+            ⚡ Lightning safety
+        </button>
+
+    </div>
+
+
+    <!-- CHAT AREA -->
+
+    <div
+        id="copilotChat"
+        class="copilot-chat"
+    >
+
+        <div class="copilot-message copilot-message-ai">
+
+            <div class="copilot-avatar">
+                🧠
+            </div>
+
+            <div class="copilot-message-content">
+
+                <strong>
+                    DisasterGuard AI
+                </strong>
+
+                <p>
+                    Hello! I am your AI Disaster Copilot.
+                    Ask me about your current disaster risk,
+                    weather conditions or safety precautions.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- INPUT AREA -->
+
+    <div class="copilot-input-area">
+
+        <input
+            type="text"
+            id="copilotInput"
+            placeholder="Ask something like: Why is my risk high?"
+            autocomplete="off"
+        >
+
+
+        <button
+            type="button"
+            id="copilotSendBtn"
+            class="copilot-send-btn"
+        >
+            ➤
+        </button>
+
+    </div>
+
+
+    <!-- CURRENT DATA SUMMARY -->
+
+    <div class="copilot-data-summary">
+
+        <div class="copilot-data-title">
+            📊 Current AI Context
+        </div>
+
+
+        <div class="copilot-data-grid">
+
+            <div class="copilot-data-card">
+
+                <span>
+                    🛡️ Overall Risk
+                </span>
+
+                <strong
+                    id="copilotOverallRisk"
+                >
+                    0/100
+                </strong>
+
+            </div>
+
+
+            <div class="copilot-data-card">
+
+                <span>
+                    🌧️ Weather
+                </span>
+
+                <strong
+                    id="copilotWeatherRisk"
+                >
+                    0%
+                </strong>
+
+            </div>
+
+
+            <div class="copilot-data-card">
+
+                <span>
+                    🌊 Flood
+                </span>
+
+                <strong
+                    id="copilotFloodRisk"
+                >
+                    0%
+                </strong>
+
+            </div>
+
+
+            <div class="copilot-data-card">
+
+                <span>
+                    ⚡ Lightning
+                </span>
+
+                <strong
+                    id="copilotLightningRisk"
+                >
+                    0%
+                </strong>
+
+            </div>
+
+
+            <div class="copilot-data-card">
+
+                <span>
+                    ⛈️ Storm
+                </span>
+
+                <strong
+                    id="copilotStormRisk"
+                >
+                    0%
+                </strong>
+
+            </div>
+
+
+            <div class="copilot-data-card">
+
+                <span>
+                    📚 Historical
+                </span>
+
+                <strong
+                    id="copilotHistoricalRisk"
+                >
+                    0/100
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     📡 OFFLINE EMERGENCY MODE
+     ===================================================== -->
+
+<section
+    id="offlineEmergencyMode"
+    class="offline-emergency-section"
+>
+
+    <div class="offline-emergency-header">
+
+        <div class="offline-emergency-header-left">
+
+            <div class="offline-emergency-label">
+                <span>📡</span>
+                EMERGENCY CONNECTIVITY SYSTEM
+            </div>
+
+            <h2>Offline Emergency Mode</h2>
+
+            <p>
+                Emergency safety guidance remains available
+                even when internet connectivity is unavailable.
+            </p>
+
+        </div>
+
+
+        <div
+            id="offlineStatusBadge"
+            class="offline-status-badge online"
+        >
+            🟢 ONLINE
+        </div>
+
+    </div>
+
+
+    <!-- STATUS CARD -->
+
+    <div
+        id="offlineStatusCard"
+        class="offline-status-card online"
+    >
+
+        <div
+            id="offlineStatusIcon"
+            class="offline-status-icon"
+        >
+            🟢
+        </div>
+
+
+        <div class="offline-status-content">
+
+            <span class="offline-status-label">
+                CONNECTIVITY STATUS
+            </span>
+
+            <h3 id="offlineStatusTitle">
+                Internet Connection Available
+            </h3>
+
+            <p id="offlineStatusMessage">
+                DisasterGuard AI is receiving live
+                environmental and disaster data.
+            </p>
+
+
+            <div class="offline-last-sync">
+
+                <span>
+                    🕐 Last Data Sync
+                </span>
+
+                <strong id="offlineLastSync">
+                    Waiting...
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- OFFLINE DATA -->
+
+    <div class="offline-data-heading">
+        💾 Last Known Safety Information
+    </div>
+
+
+    <div class="offline-data-grid">
+
+        <div class="offline-data-card">
+
+            <span>🛡️ Risk Score</span>
+
+            <strong id="offlineRiskScore">
+                0/100
+            </strong>
+
+        </div>
+
+
+        <div class="offline-data-card">
+
+            <span>⚡ Highest Hazard</span>
+
+            <strong id="offlineHighestHazard">
+                Unknown
+            </strong>
+
+        </div>
+
+
+        <div class="offline-data-card">
+
+            <span>📍 Location</span>
+
+            <strong id="offlineLastLocation">
+                Not available
+            </strong>
+
+        </div>
+
+
+        <div class="offline-data-card">
+
+            <span>🌊 Flood Risk</span>
+
+            <strong id="offlineFloodRisk">
+                0%
+            </strong>
+
+        </div>
+
+
+        <div class="offline-data-card">
+
+            <span>⚡ Lightning Risk</span>
+
+            <strong id="offlineLightningRisk">
+                0%
+            </strong>
+
+        </div>
+
+
+        <div class="offline-data-card">
+
+            <span>⛈️ Storm Risk</span>
+
+            <strong id="offlineStormRisk">
+                0%
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- OFFLINE SAFETY INSTRUCTIONS -->
+
+    <div class="offline-safety-panel">
+
+        <div class="offline-panel-title">
+            🛡️ Offline Safety Instructions
+        </div>
+
+
+        <div
+            id="offlineSafetyInstructions"
+            class="offline-safety-list"
+        >
+
+            <div class="offline-safety-item">
+                <span>📡</span>
+
+                <div>
+                    <strong>
+                        Stay Calm
+                    </strong>
+
+                    <p>
+                        Internet connectivity is unavailable.
+                        Follow the emergency guidance shown here.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="offline-safety-item">
+                <span>📞</span>
+
+                <div>
+                    <strong>
+                        Emergency Services
+                    </strong>
+
+                    <p>
+                        Call 112 if you are facing an
+                        immediate emergency.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- EMERGENCY CONTACTS -->
+
+    <div class="offline-contacts-panel">
+
+        <div class="offline-panel-title">
+            📞 Emergency Contacts
+        </div>
+
+
+        <div class="offline-contacts-grid">
+
+            <a
+                href="tel:112"
+                class="offline-contact-card emergency"
+            >
+                <span>🚨</span>
+
+                <div>
+                    <strong>112</strong>
+                    <small>Emergency</small>
+                </div>
+            </a>
+
+
+            <a
+                href="tel:108"
+                class="offline-contact-card"
+            >
+                <span>🏥</span>
+
+                <div>
+                    <strong>108</strong>
+                    <small>Ambulance</small>
+                </div>
+            </a>
+
+
+            <a
+                href="tel:101"
+                class="offline-contact-card"
+            >
+                <span>🚒</span>
+
+                <div>
+                    <strong>101</strong>
+                    <small>Fire</small>
+                </div>
+            </a>
+
+
+            <a
+                href="tel:100"
+                class="offline-contact-card"
+            >
+                <span>🚓</span>
+
+                <div>
+                    <strong>100</strong>
+                    <small>Police</small>
+                </div>
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- OFFLINE ACTIONS -->
+
+    <div class="offline-actions">
+
+        <button
+            type="button"
+            id="offlineEmergencyCallBtn"
+            class="offline-emergency-call-btn"
+        >
+            🚨 CALL 112
+        </button>
+
+
+        <button
+            type="button"
+            id="offlineRefreshBtn"
+            class="offline-refresh-btn"
+        >
+            🔄 Check Connection
+        </button>
+
+    </div>
+
+
+    <!-- OFFLINE NOTICE -->
+
+    <div
+        id="offlineEmergencyNotice"
+        class="offline-emergency-notice"
+    >
+        🟢 Live connectivity available.
+        Emergency information will be cached automatically.
+    </div>
+
+</section>
+
+</body>
+
+
+</html>
