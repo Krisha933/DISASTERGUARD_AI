@@ -1,6 +1,5 @@
 
 
-**Important:** Neeche ke `README` content ko hi copy karke GitHub ke `README.md` me paste karna. ` ```markdown ` wala outer wrapper copy **mat** karna.
 
 # 🌪️ DisasterGuard AI
 
